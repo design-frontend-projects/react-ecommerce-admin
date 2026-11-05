@@ -19,7 +19,7 @@ export async function getSettings(
     orderBy: { key: 'asc' },
   })
 
-  return settings.map((s: any) => ({
+  return settings.map((s) => ({
     id: s.id,
     key: s.key,
     value: s.value,

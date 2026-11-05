@@ -193,9 +193,28 @@ export function RefundDialog() {
       queryClient.invalidateQueries({ queryKey: ['recent-pos-transactions'] })
       queryClient.invalidateQueries({ queryKey: ['dashboard_data'] })
       toast.success(t('pos.refunds.refundSuccessToast', 'Refund processed successfully.'))
+      posApi.logScreenEvent({
+        action: 'REFUND_PROCESSED',
+        level: 'info',
+        message: `Refund of ${formatCurrency(form.getValues('refundAmount'))} processed for tx ${selectedTx?.transaction_number || ''}`,
+        details: {
+          transactionNumber: selectedTx?.transaction_number,
+          refundAmount: form.getValues('refundAmount'),
+          reason: form.getValues('reason'),
+        },
+      }).catch(console.error)
     },
     onError: (err: Error) => {
       toast.error(t('pos.refunds.refundFailedToast', 'Failed to process refund: {{message}}', { message: err.message }))
+      posApi.logScreenEvent({
+        action: 'REFUND_FAILED',
+        level: 'warn',
+        message: `Refund failed for tx ${selectedTx?.transaction_number || ''}: ${err.message}`,
+        details: {
+          transactionNumber: selectedTx?.transaction_number,
+          error: err.message,
+        },
+      }).catch(console.error)
     },
   })
 

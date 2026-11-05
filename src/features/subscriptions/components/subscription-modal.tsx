@@ -155,7 +155,7 @@ export function SubscriptionModal({
   const formattedPrice = selectedPlan
     ? new Intl.NumberFormat(i18n.language === 'ar' ? 'ar-EG' : 'en-US', {
         style: 'currency',
-        currency: 'VND',
+        currency: 'LE',
         maximumFractionDigits: 0,
       }).format(selectedPlan.price)
     : ''

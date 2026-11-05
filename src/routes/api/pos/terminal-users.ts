@@ -6,6 +6,8 @@ import prisma from '@/lib/prisma'
 import { requireTenantId, resolveTenantUserId } from '@/server/utils/tenant'
 import { runWithTenantContext } from '@/server/context/tenant-context'
 import { z } from 'zod'
+import { hashPin } from '@/server/fns/pos-pin'
+import { logPosScreenEvent } from '@/server/fns/pos-screen-logger'
 
 // ── GET: List terminal-user assignments with terminal and cashier details ──
 const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
@@ -42,7 +44,7 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
         orderBy: [{ is_active: 'desc' }, { created_at: 'desc' }],
       })
 
-      // 2. Fetch associated users for names/emails/roles
+      // 2. Fetch associated users for names/emails/roles and PIN status
       const userIds = [...new Set(assignments.map((a) => a.user_id))]
       const users = userIds.length > 0
         ? await prisma.tenant_users.findMany({
@@ -59,6 +61,14 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
               avatar_url: true,
               default_role: true,
               is_active: true,
+              pos_user_pins: {
+                select: {
+                  id: true,
+                  is_active: true,
+                  failed_attempts: true,
+                  locked_until: true,
+                },
+              },
             },
           })
         : []
@@ -93,14 +103,26 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             email: true,
             avatar_url: true,
             default_role: true,
+            pos_user_pins: {
+              select: {
+                id: true,
+                is_active: true,
+                failed_attempts: true,
+                locked_until: true,
+              },
+            },
           },
           orderBy: [{ first_name: 'asc' }, { email: 'asc' }],
         }),
       ])
 
+      const now = new Date()
+
       const mappedAssignments = assignments.map((a) => {
         const u = userMap.get(a.user_id)
         const fullName = [u?.first_name, u?.last_name].filter(Boolean).join(' ') || u?.email || 'Unknown Cashier'
+        const pin = u?.pos_user_pins
+        const isLocked = Boolean(pin?.locked_until && pin.locked_until > now)
 
         return {
           id: a.id,
@@ -117,6 +139,10 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
           avatarUrl: u?.avatar_url || null,
           userIsActive: u?.is_active ?? true,
           isActive: a.is_active,
+          hasPin: Boolean(pin),
+          isPinActive: pin?.is_active ?? false,
+          isLocked,
+          failedAttempts: pin?.failed_attempts ?? 0,
           createdAt: a.created_at.toISOString(),
           updatedAt: a.updated_at.toISOString(),
         }
@@ -133,6 +159,8 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
             email: u.email || '',
             role: u.default_role || 'cashier',
             avatarUrl: u.avatar_url,
+            hasPin: Boolean(u.pos_user_pins),
+            isPinActive: u.pos_user_pins?.is_active ?? false,
           })),
         },
       })
@@ -142,11 +170,12 @@ const GET = withAuth(PERMISSIONS.POS_ACCESS, async ({ request, auth }) => {
   }
 })
 
-// ── POST: Manage terminal user assignments (Assign, Toggle Status, Remove) ──
+// ── POST: Manage terminal user assignments (Assign with Mandatory PIN, Toggle Status, Remove) ──
 const assignSchema = z.object({
   action: z.literal('assign'),
   terminalId: z.string().uuid(),
   userIds: z.array(z.string().uuid()).min(1),
+  pin: z.string().regex(/^\d{4,8}$/, 'PIN must be between 4 and 8 numeric digits'),
   isActive: z.boolean().optional().default(true),
 })
 
@@ -191,19 +220,24 @@ const POST = withAuth(PERMISSIONS.POS_TERMINALS_MANAGE, async ({ request, auth }
 
     return await runWithTenantContext({ tenantId, userId: auth.userId }, async () => {
       if (data.action === 'assign') {
-        const results = await Promise.all(
-          data.userIds.map((userId) =>
-            prisma.pos_terminal_users.upsert({
+        const hashedPin = await hashPin(data.pin)
+
+        const results = await prisma.$transaction(async (tx) => {
+          const assignments = []
+
+          for (const targetUserId of data.userIds) {
+            // 1. Upsert pos_terminal_users
+            const assigned = await tx.pos_terminal_users.upsert({
               where: {
                 terminal_id_user_id: {
                   terminal_id: data.terminalId,
-                  user_id: userId,
+                  user_id: targetUserId,
                 },
               },
               create: {
                 tenant_id: tenantId,
                 terminal_id: data.terminalId,
-                user_id: userId,
+                user_id: targetUserId,
                 is_active: data.isActive,
                 created_by_user_id: tenantUserId,
                 updated_by_user_id: tenantUserId,
@@ -213,8 +247,55 @@ const POST = withAuth(PERMISSIONS.POS_TERMINALS_MANAGE, async ({ request, auth }
                 updated_by_user_id: tenantUserId,
               },
             })
-          )
-        )
+            assignments.push(assigned)
+
+            // 2. Upsert pos_user_pins with full details from model
+            await tx.pos_user_pins.upsert({
+              where: {
+                tenant_user_id: targetUserId,
+              },
+              create: {
+                tenant_id: tenantId,
+                tenant_user_id: targetUserId,
+                pin_hash: hashedPin,
+                is_active: true,
+                failed_attempts: 0,
+                locked_until: null,
+              },
+              update: {
+                pin_hash: hashedPin,
+                is_active: true,
+                failed_attempts: 0,
+                locked_until: null,
+                updated_at: new Date(),
+              },
+            })
+
+            // 3. Sync to legacy refund_pin_code in tenant_users
+            await tx.tenant_users.update({
+              where: { id: targetUserId },
+              data: { refund_pin_code: hashedPin },
+            })
+          }
+
+          return assignments
+        })
+
+        // Log assignment and PIN setup
+        await logPosScreenEvent({
+          tenantId,
+          terminalId: data.terminalId,
+          userId: tenantUserId,
+          action: 'TERMINAL_USER_ASSIGNED',
+          level: 'info',
+          message: `Assigned ${data.userIds.length} user(s) to terminal with PIN configuration`,
+          details: {
+            assignedUserIds: data.userIds,
+            terminalId: data.terminalId,
+            isActive: data.isActive,
+          },
+        })
+
         return Response.json({ success: true, data: results }, { status: 201 })
       }
 
@@ -239,6 +320,16 @@ const POST = withAuth(PERMISSIONS.POS_TERMINALS_MANAGE, async ({ request, auth }
             tenant_id: tenantId,
           },
         })
+
+        await logPosScreenEvent({
+          tenantId,
+          userId: tenantUserId,
+          action: 'TERMINAL_USER_REMOVED',
+          level: 'warn',
+          message: `Removed cashier terminal authorization (${data.id})`,
+          details: { assignmentId: data.id },
+        })
+
         return Response.json({ success: true, count: result.count })
       }
 
@@ -249,6 +340,16 @@ const POST = withAuth(PERMISSIONS.POS_TERMINALS_MANAGE, async ({ request, auth }
             tenant_id: tenantId,
           },
         })
+
+        await logPosScreenEvent({
+          tenantId,
+          userId: tenantUserId,
+          action: 'TERMINAL_USER_REMOVED',
+          level: 'warn',
+          message: `Batch removed ${data.ids.length} terminal cashier authorizations`,
+          details: { assignmentIds: data.ids },
+        })
+
         return Response.json({ success: true, count: data.ids.length })
       }
 

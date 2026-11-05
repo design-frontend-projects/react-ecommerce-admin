@@ -52,7 +52,7 @@ export function SubscriptionPlanCard({
     i18n.language === 'ar' ? 'ar-EG' : 'en-US',
     {
       style: 'currency',
-      currency: 'VND',
+      currency: 'LE',
       maximumFractionDigits: 0,
     }
   ).format(plan.price)

@@ -34,6 +34,8 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { PosScreenLogsTable } from '../components/pos-screen-logs-table'
 import {
   usePosSessionsList,
   usePosSessionSummary,
@@ -43,6 +45,7 @@ import {
 export function PosReportsPage() {
   const [selectedTerminalId, setSelectedTerminalId] = useState<string | undefined>()
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null)
+  const [reportTab, setReportTab] = useState<'sessions' | 'screen-logs'>('sessions')
 
   const { data: terminals = [] } = usePosTerminals()
   const { data: sessionData, isLoading } = usePosSessionsList({
@@ -116,13 +119,29 @@ export function PosReportsPage() {
 
   return (
     <div className='container mx-auto p-6 space-y-6'>
-      {/* Header */}
-      <div>
-        <h1 className='text-3xl font-extrabold tracking-tight'>POS Reports & Audit</h1>
-        <p className='text-sm text-muted-foreground mt-1'>
-          Review shift performance, cash drawer reconciliation variances, and historical register sessions.
-        </p>
-      </div>
+      <Tabs value={reportTab} onValueChange={(val: any) => setReportTab(val)} className='space-y-6'>
+        {/* Header & Tabs */}
+        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4'>
+          <div>
+            <h1 className='text-3xl font-extrabold tracking-tight'>POS Reports & Audit Logs</h1>
+            <p className='text-sm text-muted-foreground mt-1'>
+              Review shift performance, cash reconciliation, and live screen activity audit trails.
+            </p>
+          </div>
+
+          <TabsList className='grid grid-cols-2 h-9'>
+            <TabsTrigger value='sessions' className='text-xs gap-1.5'>
+              <FileText className='h-3.5 w-3.5' />
+              <span>Session Z-Reports</span>
+            </TabsTrigger>
+            <TabsTrigger value='screen-logs' className='text-xs gap-1.5 font-semibold'>
+              <Activity className='h-3.5 w-3.5 text-primary' />
+              <span>Screen Activity Logs</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value='sessions' className='space-y-6 mt-0'>
 
       {/* KPI Cards */}
       <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
@@ -301,6 +320,12 @@ export function PosReportsPage() {
           </Table>
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value='screen-logs' className='mt-0'>
+          <PosScreenLogsTable />
+        </TabsContent>
+      </Tabs>
 
       {/* Session Audit Modal */}
       <Dialog

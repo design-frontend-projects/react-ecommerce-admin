@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -25,6 +26,7 @@ import {
 import { useSettingsStore } from '@/features/settings/data/store'
 
 export function BrandingSection() {
+  const { t } = useTranslation()
   const branding = useSettingsStore((s) => s.branding)
   const setBranding = useSettingsStore((s) => s.setBranding)
   const isLoaded = useSettingsStore((s) => s.isLoaded)
@@ -45,10 +47,13 @@ export function BrandingSection() {
         is_public: true,
       })
       setBranding(values)
-      toast.success('Branding settings saved successfully')
-    } catch (error) {
-      console.error('Failed to save branding settings:', error)
-      toast.error('Failed to save branding settings')
+      toast.success(
+        t('settings.system.branding.savedSuccess', 'Branding settings saved successfully')
+      )
+    } catch {
+      toast.error(
+        t('settings.system.branding.savedError', 'Failed to save branding settings')
+      )
     }
   }
 
@@ -60,12 +65,23 @@ export function BrandingSection() {
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Site Name</FormLabel>
+              <FormLabel>
+                {t('settings.system.branding.siteName', 'Site Name')}
+              </FormLabel>
               <FormControl>
-                <Input placeholder='My Restaurant' {...field} />
+                <Input
+                  placeholder={t(
+                    'settings.system.branding.siteNamePlaceholder',
+                    'My Restaurant'
+                  )}
+                  {...field}
+                />
               </FormControl>
               <FormDescription>
-                The name displayed in the browser tab and navigation bar.
+                {t(
+                  'settings.system.branding.siteNameDesc',
+                  'The name displayed in the browser tab and navigation bar.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -77,16 +93,24 @@ export function BrandingSection() {
           name='logo_url'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Logo URL</FormLabel>
+              <FormLabel>
+                {t('settings.system.branding.logoUrl', 'Logo URL')}
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder='https://example.com/logo.png'
+                  placeholder={t(
+                    'settings.system.branding.logoUrlPlaceholder',
+                    'https://example.com/logo.png'
+                  )}
                   {...field}
                   value={field.value ?? ''}
                 />
               </FormControl>
               <FormDescription>
-                Direct link to your brand logo image.
+                {t(
+                  'settings.system.branding.logoUrlDesc',
+                  'Direct link to your brand logo image.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -98,16 +122,24 @@ export function BrandingSection() {
           name='favicon_url'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Favicon URL</FormLabel>
+              <FormLabel>
+                {t('settings.system.branding.faviconUrl', 'Favicon URL')}
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder='https://example.com/favicon.ico'
+                  placeholder={t(
+                    'settings.system.branding.faviconUrlPlaceholder',
+                    'https://example.com/favicon.ico'
+                  )}
                   {...field}
                   value={field.value ?? ''}
                 />
               </FormControl>
               <FormDescription>
-                The small icon shown in browser tabs.
+                {t(
+                  'settings.system.branding.faviconUrlDesc',
+                  'The small icon shown in browser tabs.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -119,17 +151,25 @@ export function BrandingSection() {
           name='description'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Site Description</FormLabel>
+              <FormLabel>
+                {t('settings.system.branding.description', 'Site Description')}
+              </FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder='A short description of your business...'
+                  placeholder={t(
+                    'settings.system.branding.descriptionPlaceholder',
+                    'A short description of your business...'
+                  )}
                   className='min-h-[80px] resize-none'
                   {...field}
                   value={field.value ?? ''}
                 />
               </FormControl>
               <FormDescription>
-                Used in meta tags and documentation. Max 500 characters.
+                {t(
+                  'settings.system.branding.descriptionDesc',
+                  'Used in meta tags and documentation. Max 500 characters.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -142,11 +182,11 @@ export function BrandingSection() {
           className='w-full sm:w-auto'
         >
           {upsertMutation.isPending ? (
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            <Loader2 className='me-2 h-4 w-4 animate-spin' />
           ) : (
-            <Save className='mr-2 h-4 w-4' />
+            <Save className='me-2 h-4 w-4' />
           )}
-          Save Branding
+          {t('settings.system.branding.save', 'Save Branding')}
         </Button>
       </form>
     </Form>

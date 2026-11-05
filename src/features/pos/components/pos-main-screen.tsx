@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
+  Activity,
   AlertTriangle,
   Ban,
   Building,
@@ -67,6 +68,7 @@ import { PosCheckoutDialog } from './pos-checkout-dialog'
 import { PosHeldOrdersDialog } from './pos-held-orders-dialog'
 import { PosReceiptDialog, type ReceiptData } from './pos-receipt-dialog'
 import { PosReturnsDialog } from './pos-returns-dialog'
+import { PosScreenLogDrawer } from './pos-screen-log-drawer'
 import { POSRefundWorkflowModal } from '../refunds/components/POSRefundWorkflowModal'
 import { useCanRefundAction } from '../refunds/hooks/useRefunds'
 import { PosSessionDialog } from './pos-session-dialog'
@@ -139,6 +141,7 @@ export function PosMainScreen() {
     'open'
   )
   const [isCashMovementOpen, setIsCashMovementOpen] = useState(false)
+  const [isLogDrawerOpen, setIsLogDrawerOpen] = useState(false)
   const [isHeldOrdersOpen, setIsHeldOrdersOpen] = useState(false)
   const [heldOrdersMode, setHeldOrdersMode] = useState<'view' | 'hold'>('view')
   const [isReturnsOpen, setIsReturnsOpen] = useState(false)
@@ -551,6 +554,18 @@ export function PosMainScreen() {
             </Button>
           )}
 
+          {/* POS Screen Activity Stream Drawer */}
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={() => setIsLogDrawerOpen(true)}
+            className='h-8 gap-1.5 text-xs px-2 sm:px-2.5 border-primary/20 hover:border-primary/50'
+            title='View POS Screen Activity Logs'
+          >
+            <Activity className='h-3.5 w-3.5 text-primary shrink-0' />
+            <span className='hidden lg:inline'>Activity Logs</span>
+          </Button>
+
           {/* Barcode & Manual SKU Tools */}
           <Button
             variant='outline'
@@ -947,6 +962,7 @@ export function PosMainScreen() {
       />
 
       <POSRefundWorkflowModal open={isReturnsOpen} onOpenChange={setIsReturnsOpen} />
+      <PosScreenLogDrawer open={isLogDrawerOpen} onOpenChange={setIsLogDrawerOpen} />
 
       <ManualSkuDialog
         open={isManualSkuOpen}

@@ -90,6 +90,7 @@ export const ModelName = {
   refunds: 'refunds',
   refund_items: 'refund_items',
   pos_user_pins: 'pos_user_pins',
+  pos_screen_logs: 'pos_screen_logs',
   res_events: 'res_events',
   res_floors: 'res_floors',
   res_item_properties: 'res_item_properties',
@@ -1087,6 +1088,24 @@ export const Pos_user_pinsScalarFieldEnum = {
 } as const
 
 export type Pos_user_pinsScalarFieldEnum = (typeof Pos_user_pinsScalarFieldEnum)[keyof typeof Pos_user_pinsScalarFieldEnum]
+
+
+export const Pos_screen_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  session_id: 'session_id',
+  user_id: 'user_id',
+  action: 'action',
+  level: 'level',
+  message: 'message',
+  details: 'details',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  created_at: 'created_at'
+} as const
+
+export type Pos_screen_logsScalarFieldEnum = (typeof Pos_screen_logsScalarFieldEnum)[keyof typeof Pos_screen_logsScalarFieldEnum]
 
 
 export const Res_eventsScalarFieldEnum = {

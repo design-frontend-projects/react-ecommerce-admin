@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import { type Row } from '@tanstack/react-table'
-import { Edit, MoreHorizontal, Trash } from 'lucide-react'
+import { Edit, Eye, MoreHorizontal, Trash } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ interface SupplierRowActionsProps<TData> {
 export function SupplierRowActions<TData>({
   row,
 }: SupplierRowActionsProps<TData>) {
+  const { t } = useTranslation()
   const supplier = row.original as Supplier
   const { setOpen, setCurrentRow } = useSuppliersContext()
 
@@ -31,10 +33,21 @@ export function SupplierRowActions<TData>({
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <MoreHorizontal className='h-4 w-4' />
-          <span className='sr-only'>Open menu</span>
+          <span className='sr-only'>
+            {t('suppliers.actions.openMenu', { defaultValue: 'Open menu' })}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
+        <DropdownMenuItem
+          onClick={() => {
+            setCurrentRow(supplier)
+            setOpen('view')
+          }}
+        >
+          <Eye className='me-2 h-3.5 w-3.5 text-muted-foreground/70' />
+          {t('suppliers.actions.view', { defaultValue: 'View Details' })}
+        </DropdownMenuItem>
         <Can permission='purchasing.manage'>
           <DropdownMenuItem
             onClick={() => {
@@ -42,8 +55,8 @@ export function SupplierRowActions<TData>({
               setOpen('edit')
             }}
           >
-            <Edit className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Edit
+            <Edit className='me-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            {t('suppliers.actions.edit', { defaultValue: 'Edit' })}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -51,9 +64,10 @@ export function SupplierRowActions<TData>({
               setCurrentRow(supplier)
               setOpen('delete')
             }}
+            className='text-destructive focus:text-destructive'
           >
-            <Trash className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
-            Delete
+            <Trash className='me-2 h-3.5 w-3.5 text-destructive/70' />
+            {t('suppliers.actions.delete', { defaultValue: 'Delete' })}
             <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
           </DropdownMenuItem>
         </Can>

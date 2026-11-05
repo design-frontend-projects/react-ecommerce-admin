@@ -423,6 +423,7 @@ export const ModelName = {
   refunds: 'refunds',
   refund_items: 'refund_items',
   pos_user_pins: 'pos_user_pins',
+  pos_screen_logs: 'pos_screen_logs',
   res_events: 'res_events',
   res_floors: 'res_floors',
   res_item_properties: 'res_item_properties',
@@ -569,7 +570,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "refund_items" | "pos_user_pins" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue" | "tenant_user_branches" | "tenant_user_warehouses" | "approval_rules" | "approval_requests" | "security_audit_logs"
+    modelProps: "activity_types" | "audit_logs" | "addresses" | "branches" | "categories" | "cities" | "countries" | "currencies" | "customer_cards" | "customer_groups" | "customers" | "payment_types" | "permissions" | "pos_terminals" | "price_list" | "price_list_items" | "price_list_assignments" | "product_variants" | "products" | "product_types" | "product_suppliers" | "product_media" | "attribute_definitions" | "attribute_values" | "product_variant_attributes" | "inventory_items" | "pos_reorder_requests" | "promotion_usage" | "promotions" | "promotion_menu_scopes" | "purchase_invoice_items" | "purchase_invoices" | "purchase_order_items" | "purchase_orders" | "purchase_return_items" | "purchase_returns" | "refunds" | "refund_items" | "pos_user_pins" | "pos_screen_logs" | "res_events" | "res_floors" | "res_item_properties" | "res_item_variants" | "res_menu_categories" | "res_menu_items" | "res_notifications" | "res_order_items" | "res_orders" | "res_shipments" | "res_payment_methods" | "res_reservations" | "res_shifts" | "res_tables" | "res_void_requests" | "role_permissions" | "roles" | "sales_invoice_items" | "sales_invoices" | "sales_return_items" | "sales_returns" | "shipments" | "shipping_methods" | "shipping_rates" | "stores" | "channels" | "subscriptions" | "suppliers" | "tax_rates" | "tenant_subscriptions" | "tenant_subscription_usage" | "subscription_invoices" | "tenants" | "tenant_users" | "financial_transaction_details" | "financial_transactions" | "user_roles" | "business_activity_types" | "tenant_activity_types" | "app_modules" | "module_activity_types" | "app_screens" | "screen_roles" | "screen_permissions" | "permission_buttons" | "screen_buttons" | "user_permissions" | "rbac_audit" | "inventory_movements" | "stock_balances" | "stock_transfers" | "stock_transfer_items" | "stock_transfer_shipments" | "stock_transfer_shipment_items" | "stock_transfer_receipts" | "stock_transfer_receipt_items" | "stock_transfer_item_batches" | "stock_transfer_item_serials" | "stock_adjustments" | "stock_adjustment_items" | "stock_counts" | "stock_count_items" | "purchase_requisitions" | "purchase_requisition_items" | "sales_orders" | "sales_order_items" | "sales_shipments" | "sales_shipment_items" | "customer_returns" | "customer_return_items" | "stock_reservations" | "reorder_rules" | "reorder_suggestions" | "app_settings" | "warehouses" | "store_warehouses" | "warehouse_locations" | "stock_by_location" | "brands" | "uoms" | "unit_conversions" | "product_barcodes" | "bundle_components" | "product_batches" | "product_serials" | "inventory_movement_serials" | "goods_receipts" | "goods_receipt_items" | "goods_receipt_item_serials" | "lookup_types" | "lookup_values" | "inventory_transaction_types" | "inventory_transaction_type_rules" | "inventory_transactions" | "inventory_transaction_items" | "inventory_audit_logs" | "pos_terminal_users" | "pos_sessions" | "pos_cash_movements" | "sales_order_payments" | "pos_held_orders" | "inv_promotions" | "inv_promotion_rules" | "inv_promotion_conditions" | "inv_promotion_products" | "inv_promotion_categories" | "inv_promotion_brands" | "inv_promotion_customer_groups" | "inv_promotion_channels" | "inv_promotion_stores" | "inv_promotion_branches" | "inv_coupons" | "inv_coupon_redemptions" | "inv_sales_invoice_discounts" | "inv_sales_invoice_item_discounts" | "inv_discount_approval_requests" | "inv_promotion_usage_logs" | "sales_invoice_payments" | "invoice_number_sequences" | "notification_channels" | "notification_channel_members" | "notifications" | "notification_recipients" | "notification_templates" | "notification_preferences" | "notification_publish_queue" | "tenant_user_branches" | "tenant_user_warehouses" | "approval_rules" | "approval_requests" | "security_audit_logs"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3456,6 +3457,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.pos_user_pinsCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.Pos_user_pinsCountAggregateOutputType> | number
+        }
+      }
+    }
+    pos_screen_logs: {
+      payload: Prisma.$pos_screen_logsPayload<ExtArgs>
+      fields: Prisma.pos_screen_logsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.pos_screen_logsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.pos_screen_logsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        findFirst: {
+          args: Prisma.pos_screen_logsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.pos_screen_logsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        findMany: {
+          args: Prisma.pos_screen_logsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>[]
+        }
+        create: {
+          args: Prisma.pos_screen_logsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        createMany: {
+          args: Prisma.pos_screen_logsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.pos_screen_logsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>[]
+        }
+        delete: {
+          args: Prisma.pos_screen_logsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        update: {
+          args: Prisma.pos_screen_logsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        deleteMany: {
+          args: Prisma.pos_screen_logsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.pos_screen_logsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.pos_screen_logsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>[]
+        }
+        upsert: {
+          args: Prisma.pos_screen_logsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$pos_screen_logsPayload>
+        }
+        aggregate: {
+          args: Prisma.Pos_screen_logsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePos_screen_logs>
+        }
+        groupBy: {
+          args: Prisma.pos_screen_logsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_screen_logsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.pos_screen_logsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Pos_screen_logsCountAggregateOutputType> | number
         }
       }
     }
@@ -14042,6 +14117,24 @@ export const Pos_user_pinsScalarFieldEnum = {
 export type Pos_user_pinsScalarFieldEnum = (typeof Pos_user_pinsScalarFieldEnum)[keyof typeof Pos_user_pinsScalarFieldEnum]
 
 
+export const Pos_screen_logsScalarFieldEnum = {
+  id: 'id',
+  tenant_id: 'tenant_id',
+  terminal_id: 'terminal_id',
+  session_id: 'session_id',
+  user_id: 'user_id',
+  action: 'action',
+  level: 'level',
+  message: 'message',
+  details: 'details',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  created_at: 'created_at'
+} as const
+
+export type Pos_screen_logsScalarFieldEnum = (typeof Pos_screen_logsScalarFieldEnum)[keyof typeof Pos_screen_logsScalarFieldEnum]
+
+
 export const Res_eventsScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -18233,6 +18326,7 @@ export type GlobalOmitConfig = {
   refunds?: Prisma.refundsOmit
   refund_items?: Prisma.refund_itemsOmit
   pos_user_pins?: Prisma.pos_user_pinsOmit
+  pos_screen_logs?: Prisma.pos_screen_logsOmit
   res_events?: Prisma.res_eventsOmit
   res_floors?: Prisma.res_floorsOmit
   res_item_properties?: Prisma.res_item_propertiesOmit

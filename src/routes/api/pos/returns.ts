@@ -7,16 +7,80 @@ import {
   lookupInvoiceForRefund,
   getRefundableItems,
   createRefundRequest,
+  submitRefund,
+  approveRefund,
+  rejectRefund,
   executeRefund,
+  cancelRefund,
+  getRefundById,
+  listRefunds,
+  type ListRefundsFilters,
 } from '@/server/fns/refund-engine'
 import { z } from 'zod'
 
-// ── GET: Search for returnable invoices or orders ──
+// ── GET: Search for returnable invoices, items, lists, or legacy orders ──
 const GET = withAuth(PERMISSIONS.POS_REFUND, async ({ request, auth }) => {
   try {
     const url = new URL(request.url)
-    const orderRef = url.searchParams.get('orderRef') || url.searchParams.get('invoiceNo')
+    const action = url.searchParams.get('action')
 
+    if (action === 'refundable-items') {
+      const invoiceId = url.searchParams.get('invoiceId')
+      if (!invoiceId) {
+        return Response.json(
+          { success: false, error: { message: 'invoiceId is required' } },
+          { status: 400 }
+        )
+      }
+      const data = await getRefundableItems(auth.userId, invoiceId)
+      return Response.json({ success: true, data })
+    }
+
+    if (action === 'detail') {
+      const refundId = url.searchParams.get('refundId') || url.searchParams.get('id')
+      if (!refundId) {
+        return Response.json(
+          { success: false, error: { message: 'refundId is required' } },
+          { status: 400 }
+        )
+      }
+      const data = await getRefundById(auth.userId, refundId)
+      return Response.json({ success: true, data })
+    }
+
+    if (action === 'list') {
+      const filters: ListRefundsFilters = {
+        status: (url.searchParams.get('status') as any) || undefined,
+        salesInvoiceId: url.searchParams.get('salesInvoiceId') || undefined,
+        storeId: url.searchParams.get('storeId') || undefined,
+        branchId: url.searchParams.get('branchId') || undefined,
+        customerId: url.searchParams.get('customerId') || undefined,
+        dateFrom: url.searchParams.get('dateFrom') || undefined,
+        dateTo: url.searchParams.get('dateTo') || undefined,
+        search: url.searchParams.get('search') || undefined,
+        page: url.searchParams.get('page') ? Number(url.searchParams.get('page')) : undefined,
+        pageSize: url.searchParams.get('pageSize') ? Number(url.searchParams.get('pageSize')) : undefined,
+      }
+      const data = await listRefunds(auth.userId, filters)
+      return Response.json({ success: true, data })
+    }
+
+    if (action === 'search-invoices') {
+      const params = {
+        invoiceNo: url.searchParams.get('invoiceNo') || undefined,
+        customerId: url.searchParams.get('customerId') || undefined,
+        storeId: url.searchParams.get('storeId') || undefined,
+        dateFrom: url.searchParams.get('dateFrom') || undefined,
+        dateTo: url.searchParams.get('dateTo') || undefined,
+        page: url.searchParams.get('page') ? Number(url.searchParams.get('page')) : undefined,
+        pageSize: url.searchParams.get('pageSize') ? Number(url.searchParams.get('pageSize')) : undefined,
+      }
+      const data = await lookupInvoiceForRefund(auth.userId, params)
+      return Response.json({ success: true, data })
+    }
+
+    // Default: lookup by orderRef or invoiceNo
+    const orderRef = url.searchParams.get('orderRef') || url.searchParams.get('invoiceNo')
     if (!orderRef) {
       return Response.json(
         { success: false, error: { message: 'orderRef or invoiceNo is required' } },
@@ -47,7 +111,7 @@ const GET = withAuth(PERMISSIONS.POS_REFUND, async ({ request, auth }) => {
   }
 })
 
-// ── POST: Process return or invoice refund ──
+// ── POST: Process return, lifecycle action, or invoice refund ──
 const refundPostSchema = z.object({
   salesInvoiceId: z.string().uuid().optional(),
   originalOrderId: z.string().uuid().optional(),
@@ -89,6 +153,86 @@ const refundPostSchema = z.object({
 const POST = withAuth(PERMISSIONS.POS_REFUND, async ({ request, auth }) => {
   try {
     const body = await request.json()
+
+    // 1. Lifecycle actions
+    if (body.action === 'submit') {
+      if (!body.refundId) {
+        return Response.json({ success: false, error: { message: 'refundId is required' } }, { status: 400 })
+      }
+      const result = await submitRefund(auth.userId, body.refundId)
+      return Response.json({ success: true, data: result })
+    }
+
+    if (body.action === 'approve') {
+      if (!body.refundId) {
+        return Response.json({ success: false, error: { message: 'refundId is required' } }, { status: 400 })
+      }
+      const result = await approveRefund(auth.userId, {
+        refundId: body.refundId,
+        notes: body.notes,
+        managerPin: body.managerPin,
+        managerTenantUserId: body.managerTenantUserId,
+      })
+      return Response.json({ success: true, data: result })
+    }
+
+    if (body.action === 'reject') {
+      if (!body.refundId || !body.reason) {
+        return Response.json({ success: false, error: { message: 'refundId and reason are required' } }, { status: 400 })
+      }
+      const result = await rejectRefund(auth.userId, {
+        refundId: body.refundId,
+        reason: body.reason,
+        managerPin: body.managerPin,
+        managerTenantUserId: body.managerTenantUserId,
+      })
+      return Response.json({ success: true, data: result })
+    }
+
+    if (body.action === 'execute') {
+      if (!body.refundId) {
+        return Response.json({ success: false, error: { message: 'refundId is required' } }, { status: 400 })
+      }
+      const result = await executeRefund(auth.userId, {
+        refundId: body.refundId,
+        managerPin: body.managerPin,
+        managerTenantUserId: body.managerTenantUserId,
+        restockWarehouseId: body.restockWarehouseId,
+        paymentReference: body.paymentReference,
+      })
+      return Response.json({ success: true, data: result })
+    }
+
+    if (body.action === 'cancel') {
+      if (!body.refundId || !body.reason) {
+        return Response.json({ success: false, error: { message: 'refundId and reason are required' } }, { status: 400 })
+      }
+      const result = await cancelRefund(auth.userId, {
+        refundId: body.refundId,
+        reason: body.reason,
+      })
+      return Response.json({ success: true, data: result })
+    }
+
+    // 2. Direct creation via CreateRefundInput
+    if (body.action === 'create' || (body.salesInvoiceId && body.items?.[0]?.refundQuantity !== undefined)) {
+      const result = await createRefundRequest(auth.userId, {
+        salesInvoiceId: body.salesInvoiceId,
+        items: body.items,
+        refundMethod: body.refundMethod || 'cash',
+        refundReference: body.refundReference,
+        reason: body.reason,
+        notes: body.notes,
+        pin: body.pin,
+        managerPin: body.managerPin,
+        managerTenantUserId: body.managerTenantUserId,
+        inventoryReturnRequired: body.inventoryReturnRequired ?? true,
+        idempotencyKey: body.idempotencyKey,
+      })
+      return Response.json({ success: true, data: result }, { status: 201 })
+    }
+
+    // 3. Fallback: refundPostSchema validation
     const parsed = refundPostSchema.safeParse(body)
 
     if (!parsed.success) {
@@ -100,14 +244,14 @@ const POST = withAuth(PERMISSIONS.POS_REFUND, async ({ request, auth }) => {
 
     const data = parsed.data
 
-    // If salesInvoiceId is present, execute via the new refund-engine
+    // If salesInvoiceId is present, execute via the refund-engine
     if (data.salesInvoiceId) {
       const refundResult = await createRefundRequest(auth.userId, {
         salesInvoiceId: data.salesInvoiceId,
         posSessionId: data.sessionId,
         posTerminalId: data.terminalId,
         items: data.items.map((i) => ({
-          salesInvoiceItemId: i.salesInvoiceItemId,
+          salesInvoiceItemId: i.salesInvoiceItemId!,
           productVariantId: i.productVariantId,
           quantity: Number(i.quantity),
           unitPrice: Number(i.unitPrice),
@@ -134,7 +278,6 @@ const POST = withAuth(PERMISSIONS.POS_REFUND, async ({ request, auth }) => {
           })
           return Response.json({ success: true, data: executed }, { status: 201 })
         } catch {
-          // Return the created refund request if auto-execution needs separate step
           return Response.json({ success: true, data: refundResult }, { status: 201 })
         }
       }

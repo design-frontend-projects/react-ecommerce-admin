@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { format } from 'date-fns'
+import { useTranslation } from 'react-i18next'
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -12,6 +14,7 @@ import {
   History,
   Layers,
   Package,
+  Receipt,
   RefreshCw,
   ShieldCheck,
   ShoppingCart,
@@ -49,6 +52,7 @@ import {
   formatCurrencyAmount,
   formatQuotaValue,
 } from './subscription-preview-dialog'
+import { SubscriptionInvoiceDialog } from './subscription-invoice-dialog'
 
 interface CurrentSubscriptionTabProps {
   currentSubscription: TenantSubscriptionRecord | null
@@ -67,6 +71,8 @@ export function CurrentSubscriptionTab({
   onSwitchToUsersTab,
   onPreviewPlan,
 }: CurrentSubscriptionTabProps) {
+  const { t } = useTranslation()
+  const [invoiceSub, setInvoiceSub] = useState<TenantSubscriptionRecord | null>(null)
   const plan = currentSubscription?.subscriptions ?? null
 
   if (!currentSubscription || !plan) {
@@ -668,17 +674,29 @@ export function CurrentSubscriptionTab({
                           ? format(new Date(sub.cancelled_at), 'PPP')
                           : '—'}
                       </TableCell>
-                      <TableCell className='text-right'>
-                        {sub.subscriptions && (
+                      <TableCell className='text-end'>
+                        <div className='flex items-center justify-end gap-1'>
                           <Button
                             variant='ghost'
                             size='sm'
-                            onClick={() => onPreviewPlan(sub.subscriptions!)}
+                            onClick={() => setInvoiceSub(sub)}
                           >
-                            <Eye className='mr-1 h-3.5 w-3.5' />
-                            Preview
+                            <Receipt className='me-1 h-3.5 w-3.5' />
+                            {t('subscriptions.invoice.print', {
+                              defaultValue: 'Receipt',
+                            })}
                           </Button>
-                        )}
+                          {sub.subscriptions && (
+                            <Button
+                              variant='ghost'
+                              size='sm'
+                              onClick={() => onPreviewPlan(sub.subscriptions!)}
+                            >
+                              <Eye className='me-1 h-3.5 w-3.5' />
+                              Preview
+                            </Button>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   )
@@ -688,6 +706,12 @@ export function CurrentSubscriptionTab({
           </div>
         </CardContent>
       </Card>
+
+      <SubscriptionInvoiceDialog
+        subscription={invoiceSub}
+        open={!!invoiceSub}
+        onOpenChange={(open) => !open && setInvoiceSub(null)}
+      />
     </div>
   )
 }

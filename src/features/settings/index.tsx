@@ -23,42 +23,43 @@ export function Settings() {
 
   const sidebarNavItems = [
     {
-      title: t('sidebar.profile'),
+      title: t('settings.nav.profile', t('sidebar.profile', 'Profile')),
       href: '/settings',
       icon: <UserCog size={18} />,
     },
     {
-      title: t('sidebar.account'),
+      title: t('settings.nav.account', t('sidebar.account', 'Account & Security')),
       href: '/settings/account',
       icon: <Wrench size={18} />,
     },
     {
-      title: t('sidebar.appearance'),
+      title: t('settings.nav.appearance', t('sidebar.appearance', 'Appearance')),
       href: '/settings/appearance',
       icon: <Palette size={18} />,
     },
     {
-      title: t('sidebar.notifications'),
+      title: t('settings.nav.notifications', t('sidebar.notifications', 'Notifications')),
       href: '/settings/notifications',
       icon: <Bell size={18} />,
     },
     {
-      title: t('sidebar.display'),
+      title: t('settings.nav.display', t('sidebar.display', 'Display & POS')),
       href: '/settings/display',
       icon: <Monitor size={18} />,
     },
     {
-      title: t('sidebar.system'),
+      title: t('settings.nav.system', t('sidebar.systemSettings', 'System Settings')),
       href: '/settings/system',
       icon: <Settings2 size={18} />,
     },
   ]
+
   return (
     <>
       {/* ===== Top Heading ===== */}
       <Header>
         <Search />
-        <div className='ms-auto flex items-center space-x-4'>
+        <div className='ms-auto flex items-center gap-2 sm:gap-4'>
           <LanguageSwitch />
           <ThemeSwitch />
           <ConfigDrawer />
@@ -68,13 +69,18 @@ export function Settings() {
 
       <Main fixed>
         <div className='space-y-0.5'>
-          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>{t('settings.title')}</h1>
+          <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
+            {t('settings.title', 'Settings')}
+          </h1>
           <p className='text-muted-foreground'>
-            Manage your account settings and set e-mail preferences.
+            {t(
+              'settings.description',
+              'Manage your workspace, account preferences, system settings, and business rules.'
+            )}
           </p>
         </div>
         <Separator className='my-4 lg:my-6' />
-        <div className='flex flex-1 flex-col space-y-2 overflow-hidden md:space-y-2 lg:flex-row lg:space-y-0 lg:space-x-12'>
+        <div className='flex flex-1 flex-col gap-4 overflow-hidden lg:flex-row lg:gap-10'>
           <aside className='top-0 lg:sticky lg:w-1/5'>
             <SidebarNav items={sidebarNavItems} />
           </aside>

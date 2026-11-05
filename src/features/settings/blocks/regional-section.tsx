@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -36,6 +37,7 @@ const CURRENCIES = [
   { value: 'GBP', label: 'GBP — British Pound (£)' },
   { value: 'SAR', label: 'SAR — Saudi Riyal (﷼)' },
   { value: 'AED', label: 'AED — UAE Dirham (د.إ)' },
+  { value: 'LE', label: 'LE — Egyptian Pound (ج.م / LE)' },
   { value: 'EGP', label: 'EGP — Egyptian Pound (E£)' },
   { value: 'INR', label: 'INR — Indian Rupee (₹)' },
   { value: 'JPY', label: 'JPY — Japanese Yen (¥)' },
@@ -62,6 +64,7 @@ const LANGUAGES = [
 ]
 
 export function RegionalSection() {
+  const { t } = useTranslation()
   const localization = useSettingsStore((s) => s.localization)
   const setLocalization = useSettingsStore((s) => s.setLocalization)
   const isLoaded = useSettingsStore((s) => s.isLoaded)
@@ -82,10 +85,13 @@ export function RegionalSection() {
         is_public: true,
       })
       setLocalization(values)
-      toast.success('Regional preferences saved successfully')
-    } catch (error) {
-      console.error('Failed to save regional preferences:', error)
-      toast.error('Failed to save regional preferences')
+      toast.success(
+        t('settings.system.regional.savedSuccess', 'Regional preferences saved successfully')
+      )
+    } catch {
+      toast.error(
+        t('settings.system.regional.savedError', 'Failed to save regional preferences')
+      )
     }
   }
 
@@ -97,11 +103,18 @@ export function RegionalSection() {
           name='currency'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Currency</FormLabel>
+              <FormLabel>
+                {t('settings.system.regional.currency', 'Currency')}
+              </FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select currency' />
+                    <SelectValue
+                      placeholder={t(
+                        'settings.system.regional.currencyPlaceholder',
+                        'Select currency'
+                      )}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -113,7 +126,10 @@ export function RegionalSection() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                Default currency for prices and invoices (ISO 4217).
+                {t(
+                  'settings.system.regional.currencyDesc',
+                  'Default currency for prices and invoices (ISO 4217).'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -125,11 +141,18 @@ export function RegionalSection() {
           name='date_format'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Date Format</FormLabel>
+              <FormLabel>
+                {t('settings.system.regional.dateFormat', 'Date Format')}
+              </FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select date format' />
+                    <SelectValue
+                      placeholder={t(
+                        'settings.system.regional.dateFormatPlaceholder',
+                        'Select date format'
+                      )}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -141,7 +164,10 @@ export function RegionalSection() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                How dates are displayed across the application.
+                {t(
+                  'settings.system.regional.dateFormatDesc',
+                  'How dates are displayed across the application.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -153,11 +179,18 @@ export function RegionalSection() {
           name='language'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Language</FormLabel>
+              <FormLabel>
+                {t('settings.system.regional.language', 'Language')}
+              </FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder='Select language' />
+                    <SelectValue
+                      placeholder={t(
+                        'settings.system.regional.languagePlaceholder',
+                        'Select language'
+                      )}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -169,7 +202,10 @@ export function RegionalSection() {
                 </SelectContent>
               </Select>
               <FormDescription>
-                Default language for the application interface.
+                {t(
+                  'settings.system.regional.languageDesc',
+                  'Default language for the application interface.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -181,16 +217,24 @@ export function RegionalSection() {
           name='timezone'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Timezone</FormLabel>
+              <FormLabel>
+                {t('settings.system.regional.timezone', 'Timezone')}
+              </FormLabel>
               <FormControl>
                 <Input
-                  placeholder='e.g., America/New_York, Europe/London'
+                  placeholder={t(
+                    'settings.system.regional.timezonePlaceholder',
+                    'e.g., America/New_York, Europe/London'
+                  )}
                   {...field}
                   value={field.value ?? ''}
                 />
               </FormControl>
               <FormDescription>
-                Optional. IANA timezone for date/time operations.
+                {t(
+                  'settings.system.regional.timezoneDesc',
+                  'Optional. IANA timezone for date/time operations.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -203,11 +247,11 @@ export function RegionalSection() {
           className='w-full sm:w-auto'
         >
           {upsertMutation.isPending ? (
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            <Loader2 className='me-2 h-4 w-4 animate-spin' />
           ) : (
-            <Save className='mr-2 h-4 w-4' />
+            <Save className='me-2 h-4 w-4' />
           )}
-          Save Regional Preferences
+          {t('settings.system.regional.save', 'Save Regional Preferences')}
         </Button>
       </form>
     </Form>

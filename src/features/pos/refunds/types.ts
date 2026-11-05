@@ -20,6 +20,90 @@ export type {
   RefundAuthorizationResult,
 }
 
+export interface ListRefundsFilters {
+  status?: refund_status_enum
+  salesInvoiceId?: string
+  storeId?: string
+  branchId?: string
+  customerId?: string
+  dateFrom?: string
+  dateTo?: string
+  search?: string
+  page?: number
+  pageSize?: number
+}
+
+export interface RefundItemInput {
+  salesInvoiceItemId: string
+  refundQuantity: number
+  disposition?: return_disposition_enum
+  reason?: string
+}
+
+export interface CreateRefundInput {
+  salesInvoiceId: string
+  items: RefundItemInput[]
+  refundMethod:
+    | 'cash'
+    | 'card'
+    | 'original_payment_method'
+    | 'store_credit'
+    | 'customer_wallet'
+    | 'bank_transfer'
+    | 'other'
+  refundReference?: string
+  reason?: string
+  notes?: string
+  pin?: string
+  managerPin?: string
+  managerTenantUserId?: string
+  inventoryReturnRequired?: boolean
+  idempotencyKey?: string
+}
+
+export interface ApproveRefundInput {
+  refundId: string
+  notes?: string
+  managerPin?: string
+  managerTenantUserId?: string
+}
+
+export interface RejectRefundInput {
+  refundId: string
+  reason: string
+  managerPin?: string
+  managerTenantUserId?: string
+}
+
+export interface ExecuteRefundInput {
+  refundId: string
+  managerPin?: string
+  managerTenantUserId?: string
+  restockWarehouseId?: string
+  paymentReference?: string
+}
+
+export interface CancelRefundInput {
+  refundId: string
+  reason: string
+}
+
+export interface CreateRefundResult {
+  refund: RefundRecord
+  authorization?: RefundAuthorizationResult
+  isDuplicate: boolean
+}
+
+export interface PaginatedResult<T> {
+  items: T[]
+  pagination: {
+    page: number
+    pageSize: number
+    total: number
+    totalPages: number
+  }
+}
+
 export interface RefundItemRecord {
   id: string
   tenant_id: string

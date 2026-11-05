@@ -9,10 +9,13 @@ export function SuppliersPrimaryButtons() {
   const { setOpen } = useSuppliersContext()
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex items-center gap-2'>
       <Can permission='purchasing.manage'>
-        <Button onClick={() => setOpen('create')} className='space-x-1'>
-          <span>Create Supplier</span> <Plus size={18} />
+        <Button onClick={() => setOpen('create')} className='gap-1.5'>
+          <Plus className='h-4 w-4' />
+          <span>
+            {t('suppliers.createSupplier', { defaultValue: 'Create Supplier' })}
+          </span>
         </Button>
       </Can>
     </div>

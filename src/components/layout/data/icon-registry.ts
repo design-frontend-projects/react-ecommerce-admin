@@ -173,13 +173,7 @@ const ICONS: Record<string, React.ElementType> = {
   system_management: Wrench,
   audit_logs: LineChart,
   sales_invoices: Receipt,
-  units: Ruler,
   payment_methods: CreditCard,
-  brands: Tags,
-  batches: Layers,
-  serials: Barcode,
-  areas: MapPin,
-  profile: UserCog,
 }
 
 const DEFAULT_ICON: React.ElementType = LayoutDashboard

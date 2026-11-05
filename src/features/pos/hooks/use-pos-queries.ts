@@ -11,6 +11,8 @@ export const POS_QUERY_KEYS = {
   products: (params?: any) => ['pos', 'products', params] as const,
   heldOrders: (params?: any) => ['pos', 'held-orders', params] as const,
   orderLookup: (orderRef?: string) => ['pos', 'order-lookup', orderRef] as const,
+  userPins: (params?: any) => ['pos', 'user-pins', params] as const,
+  screenLogs: (params?: any) => ['pos', 'screen-logs', params] as const,
 }
 
 // ─── Terminals ──────────────────────────────────────────────────────────────
@@ -249,6 +251,101 @@ export function useCancelHeldOrderMutation() {
     mutationFn: posApi.cancelHeldOrder,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['pos', 'held-orders'] })
+    },
+  })
+}
+
+// ─── User PINs ─────────────────────────────────────────────────────────────
+
+export function usePosUserPins(params?: { terminalId?: string; search?: string; status?: string }) {
+  return useQuery({
+    queryKey: POS_QUERY_KEYS.userPins(params),
+    queryFn: () => posApi.listUserPins(params),
+  })
+}
+
+export function useSetUserPinMutation() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: posApi.setUserPin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pos', 'user-pins'] })
+      queryClient.invalidateQueries({ queryKey: ['pos', 'terminal-users'] })
+    },
+  })
+}
+
+export function useToggleUserPinStatusMutation() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ userId, isActive }: { userId: string; isActive: boolean }) =>
+      posApi.toggleUserPinStatus(userId, isActive),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pos', 'user-pins'] })
+      queryClient.invalidateQueries({ queryKey: ['pos', 'terminal-users'] })
+    },
+  })
+}
+
+export function useUnlockUserPinMutation() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (userId: string) => posApi.unlockUserPin(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pos', 'user-pins'] })
+      queryClient.invalidateQueries({ queryKey: ['pos', 'terminal-users'] })
+    },
+  })
+}
+
+export function useResetUserPinAttemptsMutation() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (userId: string) => posApi.resetUserPinAttempts(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pos', 'user-pins'] })
+    },
+  })
+}
+
+export function useVerifyUserPinMutation() {
+  return useMutation({
+    mutationFn: posApi.verifyUserPin,
+  })
+}
+
+export function useVerifyManagerPinMutation() {
+  return useMutation({
+    mutationFn: posApi.verifyManagerPin,
+  })
+}
+
+// ─── Screen Logs ───────────────────────────────────────────────────────────
+
+export function usePosScreenLogs(params?: {
+  terminalId?: string
+  sessionId?: string
+  userId?: string
+  action?: string
+  level?: string
+  startDate?: string
+  endDate?: string
+  search?: string
+  page?: number
+  pageSize?: number
+}) {
+  return useQuery({
+    queryKey: POS_QUERY_KEYS.screenLogs(params),
+    queryFn: () => posApi.listScreenLogs(params),
+  })
+}
+
+export function useLogPosScreenEventMutation() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: posApi.logScreenEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pos', 'screen-logs'] })
     },
   })
 }

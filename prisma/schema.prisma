@@ -275,6 +275,7 @@ model pos_terminals {
   pos_held_orders        pos_held_orders[]
   sales_orders           sales_orders[]
   inv_discount_approval_requests inv_discount_approval_requests[]
+  pos_screen_logs                pos_screen_logs[]
 
   @@index([tenant_id])
   @@index([store_id])
@@ -1029,6 +1030,31 @@ model pos_user_pins {
 
   @@unique([tenant_id, tenant_user_id])
   @@index([tenant_id])
+}
+
+model pos_screen_logs {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tenant_id   String         @db.Uuid
+  terminal_id String?        @db.Uuid
+  session_id  String?        @db.Uuid
+  user_id     String?        @db.Uuid
+  action      String         @db.VarChar(100)
+  level       String         @default("info") @db.VarChar(20)
+  message     String         @db.VarChar(500)
+  details     Json?          @default("{}")
+  ip_address  String?        @db.VarChar(45)
+  user_agent  String?
+  created_at  DateTime       @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  pos_terminals pos_terminals? @relation(fields: [terminal_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  pos_sessions  pos_sessions?  @relation(fields: [session_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  tenant_users  tenant_users?  @relation(fields: [user_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([tenant_id, created_at(sort: Desc)])
+  @@index([tenant_id, action])
+  @@index([tenant_id, terminal_id])
+  @@index([tenant_id, session_id])
 }
 
 model res_events {
@@ -1899,6 +1925,7 @@ model tenant_users {
   notification_preferences     notification_preferences[]
   goods_receipts_posted        goods_receipts[] @relation("goods_receipts_posted_by_user_idTotenant_users")
   pos_user_pins                pos_user_pins?
+  pos_screen_logs              pos_screen_logs[]
   tenant_user_branches         tenant_user_branches[]
   tenant_user_warehouses       tenant_user_warehouses[]
 
@@ -4191,6 +4218,7 @@ model pos_sessions {
   pos_held_orders    pos_held_orders[]
   sales_orders       sales_orders[]
   sales_order_payments sales_order_payments[]
+  pos_screen_logs      pos_screen_logs[]
 
   @@index([tenant_id])
   @@index([terminal_id])

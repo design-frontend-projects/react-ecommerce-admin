@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { CreditCard, Layers, Sparkles, Users } from 'lucide-react'
+import { CreditCard, Sparkles, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { LanguageSwitch } from '@/components/language-switch'
@@ -19,6 +20,7 @@ import { useSubscribeToPlan, useTenantSubscriptionOverview } from './queries'
 import type { PlatformSubscriptionPlan } from './types'
 
 export function SubscriptionsFeature() {
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<'current' | 'plans' | 'users'>(
     'current'
   )
@@ -57,7 +59,7 @@ export function SubscriptionsFeature() {
     <>
       <Header fixed>
         <Search />
-        <div className='ms-auto flex items-center space-x-4'>
+        <div className='ms-auto flex items-center gap-3 sm:gap-4'>
           <LanguageSwitch />
           <ThemeSwitch />
           <ConfigDrawer />
@@ -70,7 +72,9 @@ export function SubscriptionsFeature() {
           <div>
             <div className='flex flex-wrap items-center gap-2'>
               <h2 className='text-2xl font-bold tracking-tight'>
-                Tenant Subscription &amp; Plans
+                {t('subscriptions.header.title', {
+                  defaultValue: 'Tenant Subscription & Plans',
+                })}
               </h2>
               {overview?.tenant?.name && (
                 <Badge variant='outline' className='text-xs'>
@@ -81,9 +85,11 @@ export function SubscriptionsFeature() {
                 </Badge>
               )}
             </div>
-            <p className='text-muted-foreground'>
-              Inspect your active subscription options, expiration timeline,
-              platform plans, and related tenant users.
+            <p className='text-sm text-muted-foreground mt-0.5'>
+              {t('subscriptions.header.subtitle', {
+                defaultValue:
+                  'Inspect your active subscription options, expiration timeline, platform plans, and related tenant users.',
+              })}
             </p>
           </div>
         </div>
@@ -100,16 +106,24 @@ export function SubscriptionsFeature() {
           <TabsList className='grid w-full grid-cols-3 lg:w-[540px]'>
             <TabsTrigger value='current' className='flex items-center gap-2'>
               <CreditCard className='h-4 w-4' />
-              <span>Current Subscription</span>
+              <span>
+                {t('subscriptions.tabs.current', {
+                  defaultValue: 'Current Subscription',
+                })}
+              </span>
             </TabsTrigger>
 
             <TabsTrigger value='plans' className='flex items-center gap-2'>
               <Sparkles className='h-4 w-4' />
-              <span>Available Plans</span>
+              <span>
+                {t('subscriptions.tabs.plans', {
+                  defaultValue: 'Available Plans',
+                })}
+              </span>
               {overview?.availablePlans && (
                 <Badge
                   variant='secondary'
-                  className='ml-1 h-5 px-1.5 text-[10px]'
+                  className='ms-1 h-5 px-1.5 text-[10px]'
                 >
                   {overview.availablePlans.length}
                 </Badge>
@@ -118,11 +132,15 @@ export function SubscriptionsFeature() {
 
             <TabsTrigger value='users' className='flex items-center gap-2'>
               <Users className='h-4 w-4' />
-              <span>Tenant Users</span>
+              <span>
+                {t('subscriptions.tabs.users', {
+                  defaultValue: 'Tenant Users',
+                })}
+              </span>
               {overview?.tenantUsers && (
                 <Badge
                   variant='secondary'
-                  className='ml-1 h-5 px-1.5 text-[10px]'
+                  className='ms-1 h-5 px-1.5 text-[10px]'
                 >
                   {overview.tenantUsers.length}
                 </Badge>

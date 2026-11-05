@@ -2,24 +2,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/use-auth'
 import { useHasPermission } from '@/features/users/hooks/use-rbac'
-import {
-  lookupInvoiceForRefund,
-  getRefundableItems,
-  createRefundRequest,
-  submitRefund,
-  approveRefund,
-  rejectRefund,
-  executeRefund,
-  cancelRefund,
-  getRefundById,
-  listRefunds,
-  type ListRefundsFilters,
-  type CreateRefundInput,
-  type ApproveRefundInput,
-  type RejectRefundInput,
-  type ExecuteRefundInput,
-  type CancelRefundInput,
-} from '@/server/fns/refund-engine'
+import { posApi } from '../../services/pos-client'
+import type {
+  ListRefundsFilters,
+  CreateRefundInput,
+  ApproveRefundInput,
+  RejectRefundInput,
+  ExecuteRefundInput,
+  CancelRefundInput,
+} from '../types'
 
 export const REFUND_QUERY_KEYS = {
   all: ['pos', 'refunds'] as const,
@@ -74,7 +65,7 @@ export function useSearchInvoicesForRefund(params: {
 
   return useQuery({
     queryKey: REFUND_QUERY_KEYS.invoiceSearch(params),
-    queryFn: () => lookupInvoiceForRefund(user!.id, params),
+    queryFn: () => posApi.searchInvoicesForRefund(params),
     enabled,
     staleTime: 30_000,
   })
@@ -89,7 +80,7 @@ export function useRefundableItems(invoiceId?: string | null) {
 
   return useQuery({
     queryKey: REFUND_QUERY_KEYS.refundableItems(invoiceId ?? ''),
-    queryFn: () => getRefundableItems(user!.id, invoiceId!),
+    queryFn: () => posApi.getRefundableItems(invoiceId!),
     enabled,
     staleTime: 10_000,
   })
@@ -104,7 +95,7 @@ export function useRefundDetails(refundId?: string | null) {
 
   return useQuery({
     queryKey: REFUND_QUERY_KEYS.detail(refundId ?? ''),
-    queryFn: () => getRefundById(user!.id, refundId!),
+    queryFn: () => posApi.getRefundById(refundId!),
     enabled,
     staleTime: 10_000,
   })
@@ -118,7 +109,7 @@ export function useRefundsList(filters: ListRefundsFilters = {}) {
 
   return useQuery({
     queryKey: REFUND_QUERY_KEYS.list(filters),
-    queryFn: () => listRefunds(user!.id, filters),
+    queryFn: () => posApi.listRefunds(filters),
     enabled: !!user?.id,
     staleTime: 15_000,
   })
@@ -134,7 +125,7 @@ export function useCreateRefund() {
   return useMutation({
     mutationFn: (input: CreateRefundInput) => {
       if (!user?.id) throw new Error('User authentication required')
-      return createRefundRequest(user.id, input)
+      return posApi.createRefund(input)
     },
     onSuccess: (data) => {
       if (data.isDuplicate) {
@@ -160,7 +151,7 @@ export function useSubmitRefund() {
   return useMutation({
     mutationFn: (refundId: string) => {
       if (!user?.id) throw new Error('User authentication required')
-      return submitRefund(user.id, refundId)
+      return posApi.submitRefund(refundId)
     },
     onSuccess: (refund) => {
       toast.success(`Refund ${refund.refund_number} submitted for approval.`)
@@ -182,7 +173,7 @@ export function useApproveRefund() {
   return useMutation({
     mutationFn: (input: ApproveRefundInput) => {
       if (!user?.id) throw new Error('User authentication required')
-      return approveRefund(user.id, input)
+      return posApi.approveRefund(input)
     },
     onSuccess: (refund) => {
       toast.success(`Refund ${refund.refund_number} approved!`)
@@ -204,7 +195,7 @@ export function useRejectRefund() {
   return useMutation({
     mutationFn: (input: RejectRefundInput) => {
       if (!user?.id) throw new Error('User authentication required')
-      return rejectRefund(user.id, input)
+      return posApi.rejectRefund(input)
     },
     onSuccess: (refund) => {
       toast.info(`Refund ${refund.refund_number} rejected.`)
@@ -226,7 +217,7 @@ export function useExecuteRefund() {
   return useMutation({
     mutationFn: (input: ExecuteRefundInput) => {
       if (!user?.id) throw new Error('User authentication required')
-      return executeRefund(user.id, input)
+      return posApi.executeRefund(input)
     },
     onSuccess: (refund) => {
       toast.success(`Refund ${refund.refund_number} completed and restocked!`)
@@ -248,7 +239,7 @@ export function useCancelRefund() {
   return useMutation({
     mutationFn: (input: CancelRefundInput) => {
       if (!user?.id) throw new Error('User authentication required')
-      return cancelRefund(user.id, input)
+      return posApi.cancelRefund(input)
     },
     onSuccess: (refund) => {
       toast.info(`Refund ${refund.refund_number} cancelled.`)

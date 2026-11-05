@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Save } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -16,6 +17,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { useUpsertSetting } from '@/features/settings/data/queries'
 import {
   BusinessSettingsSchema,
@@ -25,6 +27,7 @@ import {
 import { useSettingsStore } from '@/features/settings/data/store'
 
 export function BusinessSection() {
+  const { t } = useTranslation()
   const business = useSettingsStore((s) => s.business)
   const setBusiness = useSettingsStore((s) => s.setBusiness)
   const isLoaded = useSettingsStore((s) => s.isLoaded)
@@ -32,7 +35,7 @@ export function BusinessSection() {
 
   const form = useForm<
     z.input<typeof BusinessSettingsSchema>,
-    any,
+    unknown,
     BusinessSettings
   >({
     resolver: zodResolver(BusinessSettingsSchema),
@@ -49,10 +52,13 @@ export function BusinessSection() {
         is_public: false,
       })
       setBusiness(values)
-      toast.success('Business rules saved successfully')
-    } catch (error) {
-      console.error('Failed to save business rules:', error)
-      toast.error('Failed to save business rules')
+      toast.success(
+        t('settings.system.business.savedSuccess', 'Business rules saved successfully')
+      )
+    } catch {
+      toast.error(
+        t('settings.system.business.savedError', 'Failed to save business rules')
+      )
     }
   }
 
@@ -64,14 +70,19 @@ export function BusinessSection() {
           name='default_tax_rate'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Default Tax Rate (%)</FormLabel>
+              <FormLabel>
+                {t('settings.system.business.taxRate', 'Default Tax Rate (%)')}
+              </FormLabel>
               <FormControl>
                 <Input
                   type='number'
                   step='0.01'
                   min='0'
                   max='100'
-                  placeholder='0.00'
+                  placeholder={t(
+                    'settings.system.business.taxRatePlaceholder',
+                    '0.00'
+                  )}
                   {...field}
                   value={(field.value as number) ?? ''}
                   onChange={(e) =>
@@ -80,7 +91,10 @@ export function BusinessSection() {
                 />
               </FormControl>
               <FormDescription>
-                Tax rate applied automatically to new orders.
+                {t(
+                  'settings.system.business.taxRateDesc',
+                  'Tax rate applied automatically to new orders.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -92,14 +106,19 @@ export function BusinessSection() {
           name='service_fee'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Service Fee (%)</FormLabel>
+              <FormLabel>
+                {t('settings.system.business.serviceFee', 'Service Fee (%)')}
+              </FormLabel>
               <FormControl>
                 <Input
                   type='number'
                   step='0.01'
                   min='0'
                   max='100'
-                  placeholder='0.00'
+                  placeholder={t(
+                    'settings.system.business.serviceFeePlaceholder',
+                    '0.00'
+                  )}
                   {...field}
                   value={(field.value as number) ?? ''}
                   onChange={(e) =>
@@ -108,7 +127,10 @@ export function BusinessSection() {
                 />
               </FormControl>
               <FormDescription>
-                Optional service charge percentage added to orders.
+                {t(
+                  'settings.system.business.serviceFeeDesc',
+                  'Optional service charge percentage added to orders.'
+                )}
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -120,13 +142,21 @@ export function BusinessSection() {
           name='free_shipping_threshold'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Free Shipping Threshold</FormLabel>
+              <FormLabel>
+                {t(
+                  'settings.system.business.freeShipping',
+                  'Free Shipping Threshold'
+                )}
+              </FormLabel>
               <FormControl>
                 <Input
                   type='number'
                   step='0.01'
                   min='0'
-                  placeholder='0.00'
+                  placeholder={t(
+                    'settings.system.business.freeShippingPlaceholder',
+                    '0.00'
+                  )}
                   {...field}
                   value={(field.value as number) ?? ''}
                   onChange={(e) =>
@@ -135,9 +165,103 @@ export function BusinessSection() {
                 />
               </FormControl>
               <FormDescription>
-                Minimum order amount for free shipping. Set to 0 to disable.
+                {t(
+                  'settings.system.business.freeShippingDesc',
+                  'Minimum order amount for free shipping. Set to 0 to disable.'
+                )}
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='order_prefix'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {t(
+                  'settings.system.business.orderPrefix',
+                  'Order Number Prefix'
+                )}
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder={t(
+                    'settings.system.business.orderPrefixPlaceholder',
+                    'ORD-'
+                  )}
+                  maxLength={10}
+                  {...field}
+                  value={field.value ?? ''}
+                />
+              </FormControl>
+              <FormDescription>
+                {t(
+                  'settings.system.business.orderPrefixDesc',
+                  'Prefix prepended to generated order tracking numbers.'
+                )}
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='auto_reorder'
+          render={({ field }) => (
+            <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3.5'>
+              <div className='space-y-0.5 pe-4'>
+                <FormLabel className='text-sm font-medium'>
+                  {t(
+                    'settings.system.business.autoReorder',
+                    'Automatic Stock Reorder'
+                  )}
+                </FormLabel>
+                <FormDescription className='text-xs'>
+                  {t(
+                    'settings.system.business.autoReorderDesc',
+                    'Automatically generate purchase orders when stock hits minimum.'
+                  )}
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='allow_negative_stock'
+          render={({ field }) => (
+            <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3.5'>
+              <div className='space-y-0.5 pe-4'>
+                <FormLabel className='text-sm font-medium'>
+                  {t(
+                    'settings.system.business.allowNegativeStock',
+                    'Allow Negative Inventory'
+                  )}
+                </FormLabel>
+                <FormDescription className='text-xs'>
+                  {t(
+                    'settings.system.business.allowNegativeStockDesc',
+                    'Allow POS sales when stock balance is zero or below.'
+                  )}
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -148,11 +272,11 @@ export function BusinessSection() {
           className='w-full sm:w-auto'
         >
           {upsertMutation.isPending ? (
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            <Loader2 className='me-2 h-4 w-4 animate-spin' />
           ) : (
-            <Save className='mr-2 h-4 w-4' />
+            <Save className='me-2 h-4 w-4' />
           )}
-          Save Business Rules
+          {t('settings.system.business.save', 'Save Business Rules')}
         </Button>
       </form>
     </Form>

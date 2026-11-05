@@ -31,7 +31,6 @@ export const PERMISSIONS = {
   ORDERS_MANAGE: 'restaurant.orders.manage',
   ORDERS_CREATE: 'restaurant.orders.create',
   REPORTS_VIEW: 'general.reports.view',
-  POS_ACCESS: 'general.pos.access',
   SCREENS_VIEW: 'access_control.screens.view',
   SCREENS_MANAGE: 'access_control.screens.manage',
   BUTTONS_MANAGE: 'access_control.buttons.manage',

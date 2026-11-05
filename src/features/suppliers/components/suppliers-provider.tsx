@@ -1,13 +1,15 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { type Supplier } from '../hooks/use-suppliers'
 
-type SuppliersDialogType = 'create' | 'edit' | 'delete' | null
+type SuppliersDialogType = 'create' | 'edit' | 'delete' | 'view' | null
 
 interface SuppliersContextType {
   open: SuppliersDialogType
   setOpen: (type: SuppliersDialogType) => void
   currentRow: Supplier | null
   setCurrentRow: (row: Supplier | null) => void
+  currentSupplier: Supplier | null
+  setCurrentSupplier: (supplier: Supplier | null) => void
 }
 
 const SuppliersContext = React.createContext<SuppliersContextType | null>(null)
@@ -33,6 +35,8 @@ export function SuppliersProvider({ children }: SuppliersProviderProps) {
       setOpen: handleSetOpen,
       currentRow,
       setCurrentRow,
+      currentSupplier: currentRow,
+      setCurrentSupplier: setCurrentRow,
     }),
     [open, currentRow, handleSetOpen]
   )

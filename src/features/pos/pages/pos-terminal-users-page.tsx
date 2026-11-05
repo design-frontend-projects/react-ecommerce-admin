@@ -2,6 +2,10 @@ import { useState, useMemo } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import {
   AlertCircle,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Lock,
   Check,
   Filter,
   Loader2,
@@ -102,6 +106,8 @@ export function PosTerminalUsersPage() {
   const [assignTerminalId, setAssignTerminalId] = useState<string>('')
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([])
   const [assignUserSearch, setAssignUserSearch] = useState('')
+  const [assignPin, setAssignPin] = useState('')
+  const [showAssignPin, setShowAssignPin] = useState(false)
 
   // Delete dialog state
   const [assignmentToDelete, setAssignmentToDelete] = useState<TerminalUserAssignment | null>(null)
@@ -158,6 +164,8 @@ export function PosTerminalUsersPage() {
     setAssignTerminalId(targetTerminalId)
     setSelectedUserIds([])
     setAssignUserSearch('')
+    setAssignPin('')
+    setShowAssignPin(false)
     setIsAssignDialogOpen(true)
   }
 
@@ -178,10 +186,16 @@ export function PosTerminalUsersPage() {
       return
     }
 
+    if (!assignPin || assignPin.length < 4 || assignPin.length > 8 || !/^\d+$/.test(assignPin)) {
+      toast.error('Please enter a valid numeric PIN (4-8 digits) for the cashier(s)')
+      return
+    }
+
     try {
       await assignMutation.mutateAsync({
         terminalId: assignTerminalId,
         userIds: selectedUserIds,
+        pin: assignPin,
         isActive: true,
       })
 
@@ -950,6 +964,42 @@ export function PosTerminalUsersPage() {
               </div>
             </div>
 
+
+            {/* Cashier Security PIN Setup */}
+            <div className='space-y-1.5 rounded-lg border bg-muted/20 p-3'>
+              <div className='flex items-center justify-between'>
+                <Label className='flex items-center gap-1.5 text-xs font-bold uppercase'>
+                  <KeyRound className='h-3.5 w-3.5 text-primary' />
+                  Assign Cashier Security PIN *
+                </Label>
+                <Badge variant='outline' className='text-[10px] font-mono'>
+                  4 - 8 digits
+                </Badge>
+              </div>
+              <p className='text-[11px] text-muted-foreground'>
+                Required for POS shifts, logins, and in-session refund authorizations. Automatically resets lockouts.
+              </p>
+              <div className='relative mt-1'>
+                <Input
+                  type={showAssignPin ? 'text' : 'password'}
+                  maxLength={8}
+                  placeholder='Enter 4-8 digit numeric PIN'
+                  value={assignPin}
+                  onChange={(e) => setAssignPin(e.target.value.replace(/\D/g, ''))}
+                  className='pr-10 font-mono tracking-widest text-sm'
+                />
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='icon'
+                  className='absolute top-1/2 right-1 h-7 w-7 -translate-y-1/2 text-muted-foreground'
+                  onClick={() => setShowAssignPin(!showAssignPin)}
+                >
+                  {showAssignPin ? <EyeOff className='h-3.5 w-3.5' /> : <Eye className='h-3.5 w-3.5' />}
+                </Button>
+              </div>
+            </div>
+
             <DialogFooter className='gap-2 pt-2 sm:gap-0'>
               <Button
                 type='button'
@@ -960,7 +1010,7 @@ export function PosTerminalUsersPage() {
               </Button>
               <Button
                 type='submit'
-                disabled={assignMutation.isPending || selectedUserIds.length === 0}
+                disabled={assignMutation.isPending || selectedUserIds.length === 0 || assignPin.length < 4}
                 className='gap-1.5'
               >
                 {assignMutation.isPending ? (

@@ -11,7 +11,9 @@ const supabaseServiceKey =
   process.env.SUPABASE_SECRET_KEY ||
   process.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseUrl || !supabaseServiceKey) {
+const isBrowser = typeof window !== 'undefined'
+
+if (!isBrowser && (!supabaseUrl || !supabaseServiceKey)) {
   console.warn(
     '[Bluewave POS Backend] Supabase admin credentials missing from environment variables'
   )

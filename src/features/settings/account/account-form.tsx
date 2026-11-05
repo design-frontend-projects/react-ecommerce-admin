@@ -1,13 +1,15 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
+import { Loader2, KeyRound } from 'lucide-react'
 import { toast } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { useUser } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,6 +34,7 @@ const passwordFormSchema = z
 type PasswordFormValues = z.infer<typeof passwordFormSchema>
 
 export function AccountForm() {
+  const { t } = useTranslation()
   const { user } = useUser()
   const userId = user?.id
 
@@ -52,14 +55,22 @@ export function AccountForm() {
       { userId, password: data.password },
       {
         onSuccess: () => {
-          toast.success('Password updated', {
-            description: 'Your password has been successfully changed.',
-          })
+          toast.success(
+            t('settings.account.updated', 'Password changed successfully'),
+            {
+              description: t(
+                'settings.common.savedSuccess',
+                'Your password has been successfully changed.'
+              ),
+            }
+          )
           form.reset()
         },
         onError: (error) => {
-          toast.error('Error', {
-            description: error.message || 'Failed to update password.',
+          toast.error(t('settings.common.savedError', 'Error'), {
+            description:
+              error.message ||
+              t('settings.common.savedError', 'Failed to update password.'),
           })
         },
       }
@@ -68,19 +79,31 @@ export function AccountForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='max-w-2xl space-y-8'
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className='max-w-xl space-y-6'>
         <FormField
           control={form.control}
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Password</FormLabel>
+              <FormLabel>
+                {t('settings.account.newPassword', 'New Password')}
+              </FormLabel>
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <Input
+                  type='password'
+                  placeholder={t(
+                    'settings.account.newPasswordPlaceholder',
+                    '••••••••'
+                  )}
+                  {...field}
+                />
               </FormControl>
+              <FormDescription>
+                {t(
+                  'settings.account.passwordHint',
+                  'Must be at least 6 characters.'
+                )}
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -90,19 +113,42 @@ export function AccountForm() {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm New Password</FormLabel>
+              <FormLabel>
+                {t(
+                  'settings.account.confirmPassword',
+                  'Confirm New Password'
+                )}
+              </FormLabel>
               <FormControl>
-                <Input type='password' placeholder='••••••••' {...field} />
+                <Input
+                  type='password'
+                  placeholder={t(
+                    'settings.account.confirmPasswordPlaceholder',
+                    '••••••••'
+                  )}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type='submit' disabled={changePassword.isPending}>
-          {changePassword.isPending && (
-            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+        <Button
+          type='submit'
+          disabled={changePassword.isPending}
+          className='flex items-center gap-2'
+        >
+          {changePassword.isPending ? (
+            <>
+              <Loader2 className='me-2 h-4 w-4 animate-spin' />
+              {t('settings.account.updating', 'Changing Password...')}
+            </>
+          ) : (
+            <>
+              <KeyRound className='me-2 h-4 w-4' />
+              {t('settings.account.submit', 'Change Password')}
+            </>
           )}
-          Change Password
         </Button>
       </form>
     </Form>

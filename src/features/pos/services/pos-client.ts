@@ -1,4 +1,16 @@
 import { supabase } from '@/lib/supabase'
+import type {
+  ListRefundsFilters,
+  CreateRefundInput,
+  ApproveRefundInput,
+  RejectRefundInput,
+  ExecuteRefundInput,
+  CancelRefundInput,
+  CreateRefundResult,
+  RefundRecord,
+  RefundableInvoiceDetails,
+  PaginatedResult,
+} from '../refunds/types'
 
 export interface PosApiResponse<T = any> {
   success: boolean
@@ -86,8 +98,66 @@ export interface TerminalUserAssignment {
   avatarUrl: string | null
   userIsActive: boolean
   isActive: boolean
+  hasPin?: boolean
+  isPinActive?: boolean
+  isLocked?: boolean
+  failedAttempts?: number
   createdAt: string
   updatedAt: string
+}
+
+
+export interface UserPinItem {
+  id: string
+  name: string
+  email: string
+  phone: string
+  avatarUrl: string | null
+  role: string
+  isUserActive: boolean
+  hasPin: boolean
+  pinId: string | null
+  isPinActive: boolean
+  failedAttempts: number
+  lockedUntil: string | null
+  isLocked: boolean
+  pinCreatedAt: string | null
+  pinUpdatedAt: string | null
+  assignedTerminals: Array<{
+    id: string
+    name: string
+    code: string
+    isActive: boolean
+  }>
+}
+
+export interface PosScreenLogItem {
+  id: string
+  tenantId: string
+  terminalId?: string | null
+  terminalName?: string | null
+  terminalCode?: string | null
+  sessionId?: string | null
+  userId?: string | null
+  userName: string
+  userEmail?: string | null
+  userAvatar?: string | null
+  userRole?: string | null
+  action: string
+  level: 'info' | 'warn' | 'error' | 'critical'
+  message: string
+  details?: any
+  ipAddress?: string | null
+  userAgent?: string | null
+  createdAt: string
+}
+
+export interface PosScreenLogsResponse {
+  logs: PosScreenLogItem[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
 }
 
 export interface TerminalUsersData {
@@ -167,6 +237,7 @@ export const posApi = {
   assignTerminalUsers: (data: {
     terminalId: string
     userIds: string[]
+    pin: string
     isActive?: boolean
   }) => {
     return apiRequest<any>('/api/pos/terminal-users', {
@@ -437,6 +508,100 @@ export const posApi = {
     })
   },
 
+  // Refunds
+  searchInvoicesForRefund: (params: {
+    invoiceNo?: string
+    customerId?: string
+    storeId?: string
+    dateFrom?: string
+    dateTo?: string
+    page?: number
+    pageSize?: number
+  }) => {
+    const search = new URLSearchParams()
+    search.set('action', 'search-invoices')
+    if (params.invoiceNo) search.set('invoiceNo', params.invoiceNo)
+    if (params.customerId) search.set('customerId', params.customerId)
+    if (params.storeId) search.set('storeId', params.storeId)
+    if (params.dateFrom) search.set('dateFrom', params.dateFrom)
+    if (params.dateTo) search.set('dateTo', params.dateTo)
+    if (params.page) search.set('page', String(params.page))
+    if (params.pageSize) search.set('pageSize', String(params.pageSize))
+
+    return apiRequest<PaginatedResult<any>>(`/api/pos/returns?${search.toString()}`)
+  },
+
+  getRefundableItems: (invoiceId: string) => {
+    return apiRequest<RefundableInvoiceDetails>(
+      `/api/pos/returns?action=refundable-items&invoiceId=${encodeURIComponent(invoiceId)}`
+    )
+  },
+
+  getRefundById: (refundId: string) => {
+    return apiRequest<RefundRecord>(
+      `/api/pos/returns?action=detail&refundId=${encodeURIComponent(refundId)}`
+    )
+  },
+
+  listRefunds: (filters: ListRefundsFilters = {}) => {
+    const search = new URLSearchParams()
+    search.set('action', 'list')
+    if (filters.status) search.set('status', filters.status)
+    if (filters.salesInvoiceId) search.set('salesInvoiceId', filters.salesInvoiceId)
+    if (filters.storeId) search.set('storeId', filters.storeId)
+    if (filters.branchId) search.set('branchId', filters.branchId)
+    if (filters.customerId) search.set('customerId', filters.customerId)
+    if (filters.dateFrom) search.set('dateFrom', filters.dateFrom)
+    if (filters.dateTo) search.set('dateTo', filters.dateTo)
+    if (filters.search) search.set('search', filters.search)
+    if (filters.page) search.set('page', String(filters.page))
+    if (filters.pageSize) search.set('pageSize', String(filters.pageSize))
+
+    return apiRequest<PaginatedResult<RefundRecord>>(`/api/pos/returns?${search.toString()}`)
+  },
+
+  createRefund: (input: CreateRefundInput) => {
+    return apiRequest<CreateRefundResult>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'create', ...input }),
+    })
+  },
+
+  submitRefund: (refundId: string) => {
+    return apiRequest<RefundRecord>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'submit', refundId }),
+    })
+  },
+
+  approveRefund: (input: ApproveRefundInput) => {
+    return apiRequest<RefundRecord>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'approve', ...input }),
+    })
+  },
+
+  rejectRefund: (input: RejectRefundInput) => {
+    return apiRequest<RefundRecord>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'reject', ...input }),
+    })
+  },
+
+  executeRefund: (input: ExecuteRefundInput) => {
+    return apiRequest<RefundRecord>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'execute', ...input }),
+    })
+  },
+
+  cancelRefund: (input: CancelRefundInput) => {
+    return apiRequest<RefundRecord>('/api/pos/returns', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'cancel', ...input }),
+    })
+  },
+
   // Held Orders
   listHeldOrders: (params?: { sessionId?: string; terminalId?: string }) => {
     const search = new URLSearchParams()
@@ -477,4 +642,127 @@ export const posApi = {
       body: JSON.stringify({ action: 'cancel', heldOrderId }),
     })
   },
+
+  // User PINs
+  listUserPins: (params?: { terminalId?: string; search?: string; status?: string }) => {
+    const search = new URLSearchParams()
+    if (params?.terminalId) search.set('terminalId', params.terminalId)
+    if (params?.search) search.set('search', params.search)
+    if (params?.status) search.set('status', params.status)
+    const qs = search.toString() ? `?${search.toString()}` : ''
+    return apiRequest<{ success: boolean; data: UserPinItem[] }>(`/api/pos/user-pins${qs}`)
+  },
+
+  setUserPin: (data: {
+    userId: string
+    pin: string
+    isActive?: boolean
+    terminalId?: string
+  }) => {
+    return apiRequest<{ success: boolean; message: string }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'set-pin', ...data }),
+    })
+  },
+
+  toggleUserPinStatus: (userId: string, isActive: boolean) => {
+    return apiRequest<{ success: boolean; message: string }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'toggle-status', userId, isActive }),
+    })
+  },
+
+  unlockUserPin: (userId: string) => {
+    return apiRequest<{ success: boolean; message: string }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'unlock', userId }),
+    })
+  },
+
+  resetUserPinAttempts: (userId: string) => {
+    return apiRequest<{ success: boolean; message: string }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'reset-attempts', userId }),
+    })
+  },
+
+  verifyUserPin: (data: {
+    userId: string
+    pin: string
+    terminalId?: string
+    sessionId?: string
+  }) => {
+    return apiRequest<{
+      valid: boolean
+      error?: string
+      locked?: boolean
+      tenantUserId?: string
+      userName?: string
+    }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'verify', ...data }),
+    })
+  },
+
+  verifyManagerPin: (data: {
+    managerUserId: string
+    pin: string
+    requiredPermission?: string
+    terminalId?: string
+    sessionId?: string
+  }) => {
+    return apiRequest<{
+      valid: boolean
+      error?: string
+      locked?: boolean
+      tenantUserId?: string
+      userName?: string
+    }>('/api/pos/user-pins', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'verify-manager', ...data }),
+    })
+  },
+
+  // Screen Logs
+  listScreenLogs: (params?: {
+    terminalId?: string
+    sessionId?: string
+    userId?: string
+    action?: string
+    level?: string
+    startDate?: string
+    endDate?: string
+    search?: string
+    page?: number
+    pageSize?: number
+  }) => {
+    const search = new URLSearchParams()
+    if (params?.terminalId) search.set('terminalId', params.terminalId)
+    if (params?.sessionId) search.set('sessionId', params.sessionId)
+    if (params?.userId) search.set('userId', params.userId)
+    if (params?.action) search.set('action', params.action)
+    if (params?.level) search.set('level', params.level)
+    if (params?.startDate) search.set('startDate', params.startDate)
+    if (params?.endDate) search.set('endDate', params.endDate)
+    if (params?.search) search.set('search', params.search)
+    if (params?.page) search.set('page', String(params.page))
+    if (params?.pageSize) search.set('pageSize', String(params.pageSize))
+    const qs = search.toString() ? `?${search.toString()}` : ''
+    return apiRequest<{ success: boolean; data: PosScreenLogsResponse }>(`/api/pos/screen-logs${qs}`)
+  },
+
+  logScreenEvent: (data: {
+    action: string
+    level?: 'info' | 'warn' | 'error' | 'critical'
+    message: string
+    terminalId?: string
+    sessionId?: string
+    details?: any
+  }) => {
+    return apiRequest<{ success: boolean; data: any }>('/api/pos/screen-logs', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
 }

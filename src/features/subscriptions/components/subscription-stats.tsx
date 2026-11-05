@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import { CalendarClock, CreditCard, Layers, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { getSubscriptionExpirationInfo } from '@/lib/subscription_utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { TenantSubscriptionOverview } from '../types'
@@ -17,6 +18,8 @@ export function SubscriptionStats({
   overview,
   isLoading = false,
 }: SubscriptionStatsProps) {
+  const { t } = useTranslation()
+
   if (isLoading) {
     return (
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
@@ -59,18 +62,25 @@ export function SubscriptionStats({
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
-            Current Active Plan
+            {t('subscriptions.stats.activePlan', {
+              defaultValue: 'Current Active Plan',
+            })}
           </CardTitle>
           <CreditCard className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
           <div className='truncate text-2xl font-bold'>
-            {plan?.name || 'No Active Plan'}
+            {plan?.name ||
+              t('subscriptions.stats.noActivePlan', {
+                defaultValue: 'No Active Plan',
+              })}
           </div>
           <p className='text-xs text-muted-foreground'>
             {plan
               ? `${formatCurrencyAmount(currentSub?.price_at_purchase || plan.price, currentSub?.currency || plan.currency)} / ${plan.duration_months} mo (${plan.tier.replace('_', ' ')})`
-              : 'Select a plan in Available Plans tab'}
+              : t('subscriptions.stats.selectPlanHint', {
+                  defaultValue: 'Select a plan in Available Plans tab',
+                })}
           </p>
         </CardContent>
       </Card>
@@ -78,7 +88,9 @@ export function SubscriptionStats({
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
-            Expiration Countdown
+            {t('subscriptions.stats.expiration', {
+              defaultValue: 'Expiration Countdown',
+            })}
           </CardTitle>
           <CalendarClock
             className={`h-4 w-4 ${
@@ -93,13 +105,18 @@ export function SubscriptionStats({
             {!currentSub?.end_date
               ? '—'
               : expirationInfo.isExpired
-                ? 'Expired'
-                : `${expirationInfo.daysRemaining} Days`}
+                ? t('subscriptions.stats.expired', { defaultValue: 'Expired' })
+                : t('subscriptions.stats.daysLeft', {
+                    count: expirationInfo.daysRemaining,
+                    defaultValue: `${expirationInfo.daysRemaining} Days`,
+                  })}
           </div>
           <p className='text-xs text-muted-foreground'>
             {currentSub?.end_date
-              ? `Expires ${format(new Date(currentSub.end_date), 'PPP')}`
-              : 'No expiration date set'}
+              ? `${t('subscriptions.stats.expiresOn', { defaultValue: 'Expires' })} ${format(new Date(currentSub.end_date), 'PPP')}`
+              : t('subscriptions.stats.noExpiration', {
+                  defaultValue: 'No expiration date set',
+                })}
           </p>
         </CardContent>
       </Card>
@@ -107,7 +124,9 @@ export function SubscriptionStats({
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
-            Tenant User Seats
+            {t('subscriptions.stats.userSeats', {
+              defaultValue: 'Tenant User Seats',
+            })}
           </CardTitle>
           <Users className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
@@ -116,7 +135,10 @@ export function SubscriptionStats({
             {activeUsers} / {formatQuotaValue(maxUsers)}
           </div>
           <p className='text-xs text-muted-foreground'>
-            {overview?.tenantUsers.length ?? 0} total tenant user records
+            {t('subscriptions.stats.totalUsersCount', {
+              count: overview?.tenantUsers.length ?? 0,
+              defaultValue: `${overview?.tenantUsers.length ?? 0} total tenant user records`,
+            })}
           </p>
         </CardContent>
       </Card>
@@ -124,16 +146,25 @@ export function SubscriptionStats({
       <Card>
         <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
           <CardTitle className='text-sm font-medium'>
-            Modules &amp; Features
+            {t('subscriptions.stats.modulesFeatures', {
+              defaultValue: 'Modules & Features',
+            })}
           </CardTitle>
           <Layers className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
           <div className='text-2xl font-bold'>
-            {enabledFlagsCount} / 8 Features
+            {t('subscriptions.stats.featuresCount', {
+              current: enabledFlagsCount,
+              total: 8,
+              defaultValue: `${enabledFlagsCount} / 8 Features`,
+            })}
           </div>
           <p className='truncate text-xs capitalize text-muted-foreground'>
-            Modules: {(plan?.allowed_modules ?? ['inventory']).join(', ')}
+            {t('subscriptions.stats.modulesList', {
+              modules: (plan?.allowed_modules ?? ['inventory']).join(', '),
+              defaultValue: `Modules: ${(plan?.allowed_modules ?? ['inventory']).join(', ')}`,
+            })}
           </p>
         </CardContent>
       </Card>

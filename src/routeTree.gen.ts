@@ -116,9 +116,11 @@ import { Route as ApiRbacScreenButtonsRouteImport } from './routes/api/rbac/scre
 import { Route as ApiRbacPermissionsRouteImport } from './routes/api/rbac/permissions'
 import { Route as ApiRbacButtonsRouteImport } from './routes/api/rbac/buttons'
 import { Route as ApiRbacAuditRouteImport } from './routes/api/rbac/audit'
+import { Route as ApiPosUserPinsRouteImport } from './routes/api/pos/user-pins'
 import { Route as ApiPosTerminalsRouteImport } from './routes/api/pos/terminals'
 import { Route as ApiPosTerminalUsersRouteImport } from './routes/api/pos/terminal-users'
 import { Route as ApiPosSessionsRouteImport } from './routes/api/pos/sessions'
+import { Route as ApiPosScreenLogsRouteImport } from './routes/api/pos/screen-logs'
 import { Route as ApiPosReturnsRouteImport } from './routes/api/pos/returns'
 import { Route as ApiPosProductsRouteImport } from './routes/api/pos/products'
 import { Route as ApiPosHeldOrdersRouteImport } from './routes/api/pos/held-orders'
@@ -855,6 +857,11 @@ const ApiRbacAuditRoute = ApiRbacAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => ApiRbacRoute,
 } as any)
+const ApiPosUserPinsRoute = ApiPosUserPinsRouteImport.update({
+  id: '/api/pos/user-pins',
+  path: '/api/pos/user-pins',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPosTerminalsRoute = ApiPosTerminalsRouteImport.update({
   id: '/api/pos/terminals',
   path: '/api/pos/terminals',
@@ -868,6 +875,11 @@ const ApiPosTerminalUsersRoute = ApiPosTerminalUsersRouteImport.update({
 const ApiPosSessionsRoute = ApiPosSessionsRouteImport.update({
   id: '/api/pos/sessions',
   path: '/api/pos/sessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPosScreenLogsRoute = ApiPosScreenLogsRouteImport.update({
+  id: '/api/pos/screen-logs',
+  path: '/api/pos/screen-logs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPosReturnsRoute = ApiPosReturnsRouteImport.update({
@@ -1759,9 +1771,11 @@ export interface FileRoutesByFullPath {
   '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
   '/api/pos/products': typeof ApiPosProductsRoute
   '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/screen-logs': typeof ApiPosScreenLogsRoute
   '/api/pos/sessions': typeof ApiPosSessionsRoute
   '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
   '/api/pos/terminals': typeof ApiPosTerminalsRoute
+  '/api/pos/user-pins': typeof ApiPosUserPinsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -1999,9 +2013,11 @@ export interface FileRoutesByTo {
   '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
   '/api/pos/products': typeof ApiPosProductsRoute
   '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/screen-logs': typeof ApiPosScreenLogsRoute
   '/api/pos/sessions': typeof ApiPosSessionsRoute
   '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
   '/api/pos/terminals': typeof ApiPosTerminalsRoute
+  '/api/pos/user-pins': typeof ApiPosUserPinsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -2244,9 +2260,11 @@ export interface FileRoutesById {
   '/api/pos/held-orders': typeof ApiPosHeldOrdersRoute
   '/api/pos/products': typeof ApiPosProductsRoute
   '/api/pos/returns': typeof ApiPosReturnsRoute
+  '/api/pos/screen-logs': typeof ApiPosScreenLogsRoute
   '/api/pos/sessions': typeof ApiPosSessionsRoute
   '/api/pos/terminal-users': typeof ApiPosTerminalUsersRoute
   '/api/pos/terminals': typeof ApiPosTerminalsRoute
+  '/api/pos/user-pins': typeof ApiPosUserPinsRoute
   '/api/rbac/audit': typeof ApiRbacAuditRoute
   '/api/rbac/buttons': typeof ApiRbacButtonsRoute
   '/api/rbac/permissions': typeof ApiRbacPermissionsRoute
@@ -2488,9 +2506,11 @@ export interface FileRouteTypes {
     | '/api/pos/held-orders'
     | '/api/pos/products'
     | '/api/pos/returns'
+    | '/api/pos/screen-logs'
     | '/api/pos/sessions'
     | '/api/pos/terminal-users'
     | '/api/pos/terminals'
+    | '/api/pos/user-pins'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -2728,9 +2748,11 @@ export interface FileRouteTypes {
     | '/api/pos/held-orders'
     | '/api/pos/products'
     | '/api/pos/returns'
+    | '/api/pos/screen-logs'
     | '/api/pos/sessions'
     | '/api/pos/terminal-users'
     | '/api/pos/terminals'
+    | '/api/pos/user-pins'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -2972,9 +2994,11 @@ export interface FileRouteTypes {
     | '/api/pos/held-orders'
     | '/api/pos/products'
     | '/api/pos/returns'
+    | '/api/pos/screen-logs'
     | '/api/pos/sessions'
     | '/api/pos/terminal-users'
     | '/api/pos/terminals'
+    | '/api/pos/user-pins'
     | '/api/rbac/audit'
     | '/api/rbac/buttons'
     | '/api/rbac/permissions'
@@ -3146,9 +3170,11 @@ export interface RootRouteChildren {
   ApiPosHeldOrdersRoute: typeof ApiPosHeldOrdersRoute
   ApiPosProductsRoute: typeof ApiPosProductsRoute
   ApiPosReturnsRoute: typeof ApiPosReturnsRoute
+  ApiPosScreenLogsRoute: typeof ApiPosScreenLogsRoute
   ApiPosSessionsRoute: typeof ApiPosSessionsRoute
   ApiPosTerminalUsersRoute: typeof ApiPosTerminalUsersRoute
   ApiPosTerminalsRoute: typeof ApiPosTerminalsRoute
+  ApiPosUserPinsRoute: typeof ApiPosUserPinsRoute
   ApiSalesInvoicesCancelRoute: typeof ApiSalesInvoicesCancelRoute
   ApiSalesInvoicesCreditNoteRoute: typeof ApiSalesInvoicesCreditNoteRoute
   ApiSalesInvoicesDashboardRoute: typeof ApiSalesInvoicesDashboardRoute
@@ -3933,6 +3959,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiRbacAuditRouteImport
       parentRoute: typeof ApiRbacRoute
     }
+    '/api/pos/user-pins': {
+      id: '/api/pos/user-pins'
+      path: '/api/pos/user-pins'
+      fullPath: '/api/pos/user-pins'
+      preLoaderRoute: typeof ApiPosUserPinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/pos/terminals': {
       id: '/api/pos/terminals'
       path: '/api/pos/terminals'
@@ -3952,6 +3985,13 @@ declare module '@tanstack/react-router' {
       path: '/api/pos/sessions'
       fullPath: '/api/pos/sessions'
       preLoaderRoute: typeof ApiPosSessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pos/screen-logs': {
+      id: '/api/pos/screen-logs'
+      path: '/api/pos/screen-logs'
+      fullPath: '/api/pos/screen-logs'
+      preLoaderRoute: typeof ApiPosScreenLogsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/pos/returns': {
@@ -5507,9 +5547,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPosHeldOrdersRoute: ApiPosHeldOrdersRoute,
   ApiPosProductsRoute: ApiPosProductsRoute,
   ApiPosReturnsRoute: ApiPosReturnsRoute,
+  ApiPosScreenLogsRoute: ApiPosScreenLogsRoute,
   ApiPosSessionsRoute: ApiPosSessionsRoute,
   ApiPosTerminalUsersRoute: ApiPosTerminalUsersRoute,
   ApiPosTerminalsRoute: ApiPosTerminalsRoute,
+  ApiPosUserPinsRoute: ApiPosUserPinsRoute,
   ApiSalesInvoicesCancelRoute: ApiSalesInvoicesCancelRoute,
   ApiSalesInvoicesCreditNoteRoute: ApiSalesInvoicesCreditNoteRoute,
   ApiSalesInvoicesDashboardRoute: ApiSalesInvoicesDashboardRoute,

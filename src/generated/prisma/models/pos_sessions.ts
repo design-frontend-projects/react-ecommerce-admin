@@ -321,6 +321,7 @@ export type pos_sessionsWhereInput = {
   pos_held_orders?: Prisma.Pos_held_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_order_payments?: Prisma.Sales_order_paymentsListRelationFilter
+  pos_screen_logs?: Prisma.Pos_screen_logsListRelationFilter
 }
 
 export type pos_sessionsOrderByWithRelationInput = {
@@ -345,6 +346,7 @@ export type pos_sessionsOrderByWithRelationInput = {
   pos_held_orders?: Prisma.pos_held_ordersOrderByRelationAggregateInput
   sales_orders?: Prisma.sales_ordersOrderByRelationAggregateInput
   sales_order_payments?: Prisma.sales_order_paymentsOrderByRelationAggregateInput
+  pos_screen_logs?: Prisma.pos_screen_logsOrderByRelationAggregateInput
 }
 
 export type pos_sessionsWhereUniqueInput = Prisma.AtLeast<{
@@ -372,6 +374,7 @@ export type pos_sessionsWhereUniqueInput = Prisma.AtLeast<{
   pos_held_orders?: Prisma.Pos_held_ordersListRelationFilter
   sales_orders?: Prisma.Sales_ordersListRelationFilter
   sales_order_payments?: Prisma.Sales_order_paymentsListRelationFilter
+  pos_screen_logs?: Prisma.Pos_screen_logsListRelationFilter
 }, "id">
 
 export type pos_sessionsOrderByWithAggregationInput = {
@@ -441,6 +444,7 @@ export type pos_sessionsCreateInput = {
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateInput = {
@@ -464,6 +468,7 @@ export type pos_sessionsUncheckedCreateInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUpdateInput = {
@@ -487,6 +492,7 @@ export type pos_sessionsUpdateInput = {
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateInput = {
@@ -510,6 +516,7 @@ export type pos_sessionsUncheckedUpdateInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsCreateManyInput = {
@@ -701,6 +708,22 @@ export type pos_sessionsUncheckedUpdateManyWithoutTerminalNestedInput = {
   deleteMany?: Prisma.pos_sessionsScalarWhereInput | Prisma.pos_sessionsScalarWhereInput[]
 }
 
+export type pos_sessionsCreateNestedOneWithoutPos_screen_logsInput = {
+  create?: Prisma.XOR<Prisma.pos_sessionsCreateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedCreateWithoutPos_screen_logsInput>
+  connectOrCreate?: Prisma.pos_sessionsCreateOrConnectWithoutPos_screen_logsInput
+  connect?: Prisma.pos_sessionsWhereUniqueInput
+}
+
+export type pos_sessionsUpdateOneWithoutPos_screen_logsNestedInput = {
+  create?: Prisma.XOR<Prisma.pos_sessionsCreateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedCreateWithoutPos_screen_logsInput>
+  connectOrCreate?: Prisma.pos_sessionsCreateOrConnectWithoutPos_screen_logsInput
+  upsert?: Prisma.pos_sessionsUpsertWithoutPos_screen_logsInput
+  disconnect?: Prisma.pos_sessionsWhereInput | boolean
+  delete?: Prisma.pos_sessionsWhereInput | boolean
+  connect?: Prisma.pos_sessionsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.pos_sessionsUpdateToOneWithWhereWithoutPos_screen_logsInput, Prisma.pos_sessionsUpdateWithoutPos_screen_logsInput>, Prisma.pos_sessionsUncheckedUpdateWithoutPos_screen_logsInput>
+}
+
 export type pos_sessionsCreateNestedOneWithoutSales_ordersInput = {
   create?: Prisma.XOR<Prisma.pos_sessionsCreateWithoutSales_ordersInput, Prisma.pos_sessionsUncheckedCreateWithoutSales_ordersInput>
   connectOrCreate?: Prisma.pos_sessionsCreateOrConnectWithoutSales_ordersInput
@@ -785,6 +808,7 @@ export type pos_sessionsCreateWithoutTerminalInput = {
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateWithoutTerminalInput = {
@@ -807,6 +831,7 @@ export type pos_sessionsUncheckedCreateWithoutTerminalInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsCreateOrConnectWithoutTerminalInput = {
@@ -857,6 +882,114 @@ export type pos_sessionsScalarWhereInput = {
   updated_by_user_id?: Prisma.UuidNullableFilter<"pos_sessions"> | string | null
 }
 
+export type pos_sessionsCreateWithoutPos_screen_logsInput = {
+  id?: string
+  tenant_id: string
+  cashier_id: string
+  status?: $Enums.session_status_enum
+  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  actual_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cash_difference?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  opened_at?: Date | string
+  closed_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  terminal: Prisma.pos_terminalsCreateNestedOneWithoutPos_sessionsInput
+  pos_cash_movements?: Prisma.pos_cash_movementsCreateNestedManyWithoutSessionInput
+  pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
+  sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
+  sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+}
+
+export type pos_sessionsUncheckedCreateWithoutPos_screen_logsInput = {
+  id?: string
+  tenant_id: string
+  terminal_id: string
+  cashier_id: string
+  status?: $Enums.session_status_enum
+  opening_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  expected_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  actual_cash?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cash_difference?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  opened_at?: Date | string
+  closed_at?: Date | string | null
+  notes?: string | null
+  created_at?: Date | string
+  updated_at?: Date | string
+  created_by_user_id?: string | null
+  updated_by_user_id?: string | null
+  pos_cash_movements?: Prisma.pos_cash_movementsUncheckedCreateNestedManyWithoutSessionInput
+  pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
+  sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
+  sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type pos_sessionsCreateOrConnectWithoutPos_screen_logsInput = {
+  where: Prisma.pos_sessionsWhereUniqueInput
+  create: Prisma.XOR<Prisma.pos_sessionsCreateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedCreateWithoutPos_screen_logsInput>
+}
+
+export type pos_sessionsUpsertWithoutPos_screen_logsInput = {
+  update: Prisma.XOR<Prisma.pos_sessionsUpdateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedUpdateWithoutPos_screen_logsInput>
+  create: Prisma.XOR<Prisma.pos_sessionsCreateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedCreateWithoutPos_screen_logsInput>
+  where?: Prisma.pos_sessionsWhereInput
+}
+
+export type pos_sessionsUpdateToOneWithWhereWithoutPos_screen_logsInput = {
+  where?: Prisma.pos_sessionsWhereInput
+  data: Prisma.XOR<Prisma.pos_sessionsUpdateWithoutPos_screen_logsInput, Prisma.pos_sessionsUncheckedUpdateWithoutPos_screen_logsInput>
+}
+
+export type pos_sessionsUpdateWithoutPos_screen_logsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  cashier_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsession_status_enumFieldUpdateOperationsInput | $Enums.session_status_enum
+  opening_cash?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expected_cash?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  actual_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cash_difference?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  opened_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  terminal?: Prisma.pos_terminalsUpdateOneRequiredWithoutPos_sessionsNestedInput
+  pos_cash_movements?: Prisma.pos_cash_movementsUpdateManyWithoutSessionNestedInput
+  pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
+  sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
+  sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+}
+
+export type pos_sessionsUncheckedUpdateWithoutPos_screen_logsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenant_id?: Prisma.StringFieldUpdateOperationsInput | string
+  terminal_id?: Prisma.StringFieldUpdateOperationsInput | string
+  cashier_id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.Enumsession_status_enumFieldUpdateOperationsInput | $Enums.session_status_enum
+  opening_cash?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  expected_cash?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  actual_cash?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  cash_difference?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  opened_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  closed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by_user_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pos_cash_movements?: Prisma.pos_cash_movementsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
+  sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
+  sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+}
+
 export type pos_sessionsCreateWithoutSales_ordersInput = {
   id?: string
   tenant_id: string
@@ -877,6 +1010,7 @@ export type pos_sessionsCreateWithoutSales_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsCreateNestedManyWithoutSessionInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
   sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateWithoutSales_ordersInput = {
@@ -899,6 +1033,7 @@ export type pos_sessionsUncheckedCreateWithoutSales_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedCreateNestedManyWithoutSessionInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsCreateOrConnectWithoutSales_ordersInput = {
@@ -937,6 +1072,7 @@ export type pos_sessionsUpdateWithoutSales_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUpdateManyWithoutSessionNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateWithoutSales_ordersInput = {
@@ -959,6 +1095,7 @@ export type pos_sessionsUncheckedUpdateWithoutSales_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedUpdateManyWithoutSessionNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsCreateWithoutPos_cash_movementsInput = {
@@ -981,6 +1118,7 @@ export type pos_sessionsCreateWithoutPos_cash_movementsInput = {
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateWithoutPos_cash_movementsInput = {
@@ -1003,6 +1141,7 @@ export type pos_sessionsUncheckedCreateWithoutPos_cash_movementsInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsCreateOrConnectWithoutPos_cash_movementsInput = {
@@ -1041,6 +1180,7 @@ export type pos_sessionsUpdateWithoutPos_cash_movementsInput = {
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateWithoutPos_cash_movementsInput = {
@@ -1063,6 +1203,7 @@ export type pos_sessionsUncheckedUpdateWithoutPos_cash_movementsInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsCreateWithoutSales_order_paymentsInput = {
@@ -1085,6 +1226,7 @@ export type pos_sessionsCreateWithoutSales_order_paymentsInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsCreateNestedManyWithoutSessionInput
   pos_held_orders?: Prisma.pos_held_ordersCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateWithoutSales_order_paymentsInput = {
@@ -1107,6 +1249,7 @@ export type pos_sessionsUncheckedCreateWithoutSales_order_paymentsInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedCreateNestedManyWithoutSessionInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsCreateOrConnectWithoutSales_order_paymentsInput = {
@@ -1145,6 +1288,7 @@ export type pos_sessionsUpdateWithoutSales_order_paymentsInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUpdateManyWithoutSessionNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateWithoutSales_order_paymentsInput = {
@@ -1167,6 +1311,7 @@ export type pos_sessionsUncheckedUpdateWithoutSales_order_paymentsInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedUpdateManyWithoutSessionNestedInput
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsCreateWithoutPos_held_ordersInput = {
@@ -1189,6 +1334,7 @@ export type pos_sessionsCreateWithoutPos_held_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsUncheckedCreateWithoutPos_held_ordersInput = {
@@ -1211,6 +1357,7 @@ export type pos_sessionsUncheckedCreateWithoutPos_held_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedCreateNestedManyWithoutSessionInput
   sales_orders?: Prisma.sales_ordersUncheckedCreateNestedManyWithoutPos_sessionInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedCreateNestedManyWithoutSessionInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedCreateNestedManyWithoutPos_sessionsInput
 }
 
 export type pos_sessionsCreateOrConnectWithoutPos_held_ordersInput = {
@@ -1249,6 +1396,7 @@ export type pos_sessionsUpdateWithoutPos_held_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateWithoutPos_held_ordersInput = {
@@ -1271,6 +1419,7 @@ export type pos_sessionsUncheckedUpdateWithoutPos_held_ordersInput = {
   pos_cash_movements?: Prisma.pos_cash_movementsUncheckedUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsCreateManyTerminalInput = {
@@ -1311,6 +1460,7 @@ export type pos_sessionsUpdateWithoutTerminalInput = {
   pos_held_orders?: Prisma.pos_held_ordersUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateWithoutTerminalInput = {
@@ -1333,6 +1483,7 @@ export type pos_sessionsUncheckedUpdateWithoutTerminalInput = {
   pos_held_orders?: Prisma.pos_held_ordersUncheckedUpdateManyWithoutSessionNestedInput
   sales_orders?: Prisma.sales_ordersUncheckedUpdateManyWithoutPos_sessionNestedInput
   sales_order_payments?: Prisma.sales_order_paymentsUncheckedUpdateManyWithoutSessionNestedInput
+  pos_screen_logs?: Prisma.pos_screen_logsUncheckedUpdateManyWithoutPos_sessionsNestedInput
 }
 
 export type pos_sessionsUncheckedUpdateManyWithoutTerminalInput = {
@@ -1363,6 +1514,7 @@ export type Pos_sessionsCountOutputType = {
   pos_held_orders: number
   sales_orders: number
   sales_order_payments: number
+  pos_screen_logs: number
 }
 
 export type Pos_sessionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1370,6 +1522,7 @@ export type Pos_sessionsCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   pos_held_orders?: boolean | Pos_sessionsCountOutputTypeCountPos_held_ordersArgs
   sales_orders?: boolean | Pos_sessionsCountOutputTypeCountSales_ordersArgs
   sales_order_payments?: boolean | Pos_sessionsCountOutputTypeCountSales_order_paymentsArgs
+  pos_screen_logs?: boolean | Pos_sessionsCountOutputTypeCountPos_screen_logsArgs
 }
 
 /**
@@ -1410,6 +1563,13 @@ export type Pos_sessionsCountOutputTypeCountSales_order_paymentsArgs<ExtArgs ext
   where?: Prisma.sales_order_paymentsWhereInput
 }
 
+/**
+ * Pos_sessionsCountOutputType without action
+ */
+export type Pos_sessionsCountOutputTypeCountPos_screen_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.pos_screen_logsWhereInput
+}
+
 
 export type pos_sessionsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1433,6 +1593,7 @@ export type pos_sessionsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   pos_held_orders?: boolean | Prisma.pos_sessions$pos_held_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.pos_sessions$sales_ordersArgs<ExtArgs>
   sales_order_payments?: boolean | Prisma.pos_sessions$sales_order_paymentsArgs<ExtArgs>
+  pos_screen_logs?: boolean | Prisma.pos_sessions$pos_screen_logsArgs<ExtArgs>
   _count?: boolean | Prisma.Pos_sessionsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pos_sessions"]>
 
@@ -1502,6 +1663,7 @@ export type pos_sessionsInclude<ExtArgs extends runtime.Types.Extensions.Interna
   pos_held_orders?: boolean | Prisma.pos_sessions$pos_held_ordersArgs<ExtArgs>
   sales_orders?: boolean | Prisma.pos_sessions$sales_ordersArgs<ExtArgs>
   sales_order_payments?: boolean | Prisma.pos_sessions$sales_order_paymentsArgs<ExtArgs>
+  pos_screen_logs?: boolean | Prisma.pos_sessions$pos_screen_logsArgs<ExtArgs>
   _count?: boolean | Prisma.Pos_sessionsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type pos_sessionsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1519,6 +1681,7 @@ export type $pos_sessionsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     pos_held_orders: Prisma.$pos_held_ordersPayload<ExtArgs>[]
     sales_orders: Prisma.$sales_ordersPayload<ExtArgs>[]
     sales_order_payments: Prisma.$sales_order_paymentsPayload<ExtArgs>[]
+    pos_screen_logs: Prisma.$pos_screen_logsPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1936,6 +2099,7 @@ export interface Prisma__pos_sessionsClient<T, Null = never, ExtArgs extends run
   pos_held_orders<T extends Prisma.pos_sessions$pos_held_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_sessions$pos_held_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_held_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_orders<T extends Prisma.pos_sessions$sales_ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_sessions$sales_ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_ordersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sales_order_payments<T extends Prisma.pos_sessions$sales_order_paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_sessions$sales_order_paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$sales_order_paymentsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pos_screen_logs<T extends Prisma.pos_sessions$pos_screen_logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.pos_sessions$pos_screen_logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$pos_screen_logsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2475,6 +2639,30 @@ export type pos_sessions$sales_order_paymentsArgs<ExtArgs extends runtime.Types.
   take?: number
   skip?: number
   distinct?: Prisma.Sales_order_paymentsScalarFieldEnum | Prisma.Sales_order_paymentsScalarFieldEnum[]
+}
+
+/**
+ * pos_sessions.pos_screen_logs
+ */
+export type pos_sessions$pos_screen_logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the pos_screen_logs
+   */
+  select?: Prisma.pos_screen_logsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the pos_screen_logs
+   */
+  omit?: Prisma.pos_screen_logsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.pos_screen_logsInclude<ExtArgs> | null
+  where?: Prisma.pos_screen_logsWhereInput
+  orderBy?: Prisma.pos_screen_logsOrderByWithRelationInput | Prisma.pos_screen_logsOrderByWithRelationInput[]
+  cursor?: Prisma.pos_screen_logsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Pos_screen_logsScalarFieldEnum | Prisma.Pos_screen_logsScalarFieldEnum[]
 }
 
 /**

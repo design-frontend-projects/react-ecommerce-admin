@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { Building, Loader2, Monitor, Play, Plus, Users, Warehouse } from 'lucide-react'
+import { Building, KeyRound, Loader2, Monitor, Play, Plus, Users, Warehouse } from 'lucide-react'
 import { toast } from 'sonner'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -49,6 +49,7 @@ export function PosTerminalsPage() {
 
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [editingTerminal, setEditingTerminal] = useState<any>(null)
+  const [activeSubTab, setActiveSubTab] = useState<'terminals' | 'assignments' | 'user-pins'>('terminals')
 
   // Form states
   const [name, setName] = useState('')
@@ -102,35 +103,51 @@ export function PosTerminalsPage() {
 
   return (
     <div className='container mx-auto space-y-6 p-6'>
-      {/* Header */}
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-        <div>
-          <h1 className='text-3xl font-extrabold tracking-tight'>
-            POS Terminals
-          </h1>
-          <p className='mt-1 text-sm text-muted-foreground'>
-            Manage physical checkout counters, store assignments, and till
-            registers.
-          </p>
+      <Tabs
+        value={activeSubTab}
+        onValueChange={(val: any) => setActiveSubTab(val)}
+        className='space-y-6'
+      >
+        {/* Header & Sub-tabs */}
+        <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b pb-4'>
+          <div>
+            <h1 className='text-3xl font-extrabold tracking-tight'>
+              POS Terminals & Access Management
+            </h1>
+            <p className='mt-1 text-sm text-muted-foreground'>
+              Configure checkout registers, cashier authorizations, and security PIN credentials.
+            </p>
+          </div>
+
+          <div className='flex items-center gap-3'>
+            <TabsList className='grid grid-cols-3 h-9'>
+              <TabsTrigger value='terminals' className='text-xs gap-1.5'>
+                <Monitor className='h-3.5 w-3.5' />
+                <span>Terminals</span>
+              </TabsTrigger>
+              <TabsTrigger value='assignments' className='text-xs gap-1.5'>
+                <Users className='h-3.5 w-3.5' />
+                <span>Assignments</span>
+              </TabsTrigger>
+              <TabsTrigger value='user-pins' className='text-xs gap-1.5 font-semibold'>
+                <KeyRound className='h-3.5 w-3.5 text-primary' />
+                <span>Cashier PINs</span>
+              </TabsTrigger>
+            </TabsList>
+
+            {activeSubTab === 'terminals' && (
+              <Button
+                onClick={openCreateDialog}
+                size='sm'
+                className='gap-2 bg-primary text-primary-foreground h-9'
+              >
+                <Plus className='h-4 w-4' /> Add Terminal
+              </Button>
+            )}
+          </div>
         </div>
 
-        <div className='flex items-center gap-2'>
-          <Button
-            variant='outline'
-            onClick={() => navigate({ to: '/pos/terminal-users' })}
-            className='gap-2'
-          >
-            <Users className='h-4 w-4' /> Manage Terminal Users
-          </Button>
-
-          <Button
-            onClick={openCreateDialog}
-            className='gap-2 bg-primary text-primary-foreground'
-          >
-            <Plus className='h-4 w-4' /> Add Terminal
-          </Button>
-        </div>
-      </div>
+        <TabsContent value='terminals' className='space-y-6 mt-0'>
 
       {/* Terminals Grid */}
       {isLoading ? (
@@ -259,6 +276,17 @@ export function PosTerminalsPage() {
           ))}
         </div>
       )}
+
+        </TabsContent>
+
+        <TabsContent value='assignments' className='mt-0'>
+          <PosTerminalUsersPage />
+        </TabsContent>
+
+        <TabsContent value='user-pins' className='mt-0'>
+          <PosUserPinsTable />
+        </TabsContent>
+      </Tabs>
 
       {/* Create Modal */}
       <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>

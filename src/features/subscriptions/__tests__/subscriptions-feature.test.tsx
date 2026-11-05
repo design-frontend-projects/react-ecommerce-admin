@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, test, expect, vi, beforeEach } from 'vitest'
 import { AvailablePlansTab } from '../components/available-plans-tab'
 import { CurrentSubscriptionTab } from '../components/current-subscription-tab'
+import { SubscriptionInvoiceDialog } from '../components/subscription-invoice-dialog'
 import { SubscriptionPreviewDialog } from '../components/subscription-preview-dialog'
 import { SubscriptionTenantUsersTab } from '../components/subscription-tenant-users-tab'
 import type {
@@ -304,6 +305,25 @@ describe('Tenant Subscriptions Module Components', () => {
     expect(screen.getByText('Ahmed Hassan')).toBeInTheDocument()
     expect(screen.getByText('Sara Ali')).toBeInTheDocument()
     expect(screen.getAllByText('Cairo HQ Branch').length).toBeGreaterThan(0)
+  })
+
+  test('SubscriptionInvoiceDialog renders billing receipt, tax invoice specs, and print action', () => {
+    render(
+      <SubscriptionInvoiceDialog
+        subscription={activeTenantSub}
+        open={true}
+        onOpenChange={() => {}}
+      />
+    )
+
+    expect(
+      screen.getByText(/Subscription Receipt & Tax Invoice/i)
+    ).toBeInTheDocument()
+    expect(screen.getByText(/^PAID$/i)).toBeInTheDocument()
+    expect(screen.getByText('INV-TRX-1001')).toBeInTheDocument()
+    expect(screen.getAllByText(/Ahmed Hassan/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/Starter Monthly/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Print Receipt/i })).toBeInTheDocument()
   })
 })
 

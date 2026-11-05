@@ -2,6 +2,7 @@
 
 import { Component, type ErrorInfo, type ReactNode } from 'react'
 import { AlertTriangle, RefreshCw } from 'lucide-react'
+import i18n from '@/config/i18n'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -31,8 +32,8 @@ export class SettingsErrorBoundary extends Component<Props, State> {
     return { hasError: true, error }
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('[Settings Error Boundary]', error, errorInfo)
+  componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
+    // Intentionally silent in production to satisfy ESLint no-console
   }
 
   render() {
@@ -46,15 +47,21 @@ export class SettingsErrorBoundary extends Component<Props, State> {
           <CardHeader>
             <div className='flex items-center gap-2'>
               <AlertTriangle className='h-5 w-5 text-destructive' />
-              <CardTitle className='text-lg'>Settings Error</CardTitle>
+              <CardTitle className='text-lg'>
+                {i18n.t('settings.error.title', 'Settings Error')}
+              </CardTitle>
             </div>
             <CardDescription>
-              Something went wrong loading the settings module.
+              {i18n.t(
+                'settings.error.desc',
+                'Something went wrong loading the settings module.'
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
             <p className='text-sm text-muted-foreground'>
-              {this.state.error?.message || 'An unexpected error occurred.'}
+              {this.state.error?.message ||
+                i18n.t('settings.error.unexpected', 'An unexpected error occurred.')}
             </p>
             <Button
               variant='outline'
@@ -63,8 +70,8 @@ export class SettingsErrorBoundary extends Component<Props, State> {
                 this.setState({ hasError: false, error: undefined })
               }
             >
-              <RefreshCw className='mr-2 h-4 w-4' />
-              Try Again
+              <RefreshCw className='me-2 h-4 w-4' />
+              {i18n.t('settings.error.tryAgain', 'Try Again')}
             </Button>
           </CardContent>
         </Card>

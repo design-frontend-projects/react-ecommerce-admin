@@ -67,11 +67,13 @@ export function PosReturnsDialog({
   const [returnItems, setReturnItems] = useState<ReturnItemState[]>([])
   const [refundMethod, setRefundMethod] = useState<'cash' | 'card' | 'wallet'>('cash')
   const [notes, setNotes] = useState('')
+  const [authDialogOpen, setAuthDialogOpen] = useState(false)
 
   const { data: orderData, isLoading: isSearching } = useOrderLookupQuery(
     searchedOrderRef || undefined
   )
   const returnMutation = useProcessReturnMutation()
+  const logMutation = useLogPosScreenEventMutation()
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,7 +136,7 @@ export function PosReturnsDialog({
     0
   )
 
-  const handleSubmitReturn = async () => {
+  const handleSubmitReturn = () => {
     if (activeReturns.length === 0) {
       toast.error(
         t('pos.returns.noItemsSelected', 'Please select at least one item to return')
@@ -156,23 +158,43 @@ export function PosReturnsDialog({
       return
     }
 
+    setAuthDialogOpen(true)
+  }
+
+  const handleAuthorizedReturn = async (authData?: { userId?: string; userName?: string }) => {
     try {
-      await returnMutation.mutateAsync({
+      const res = await returnMutation.mutateAsync({
         originalOrderId: order.id,
-        sessionId: session.id,
-        terminalId: terminal.id,
-        warehouseId: terminal.warehouseId,
+        sessionId: session!.id,
+        terminalId: terminal!.id,
+        warehouseId: terminal!.warehouseId!,
         items: activeReturns.map((i) => ({
           salesOrderItemId: i.salesOrderItemId,
           productVariantId: i.productVariantId,
           quantity: i.quantityToReturn,
           unitPrice: i.unitPrice,
           reason: i.reason,
-          restockToWarehouseId: i.restock ? terminal.warehouseId! : undefined,
+          restockToWarehouseId: i.restock ? terminal!.warehouseId! : undefined,
         })),
         refundMethod,
         refundAmount: totalRefundAmount,
         notes: notes.trim() || undefined,
+      })
+
+      await logMutation.mutateAsync({
+        action: 'REFUND_PROCESSED',
+        level: 'info',
+        terminalId: terminal!.id,
+        sessionId: session!.id,
+        message: `Refund of ${formatCurrency(totalRefundAmount)} processed for order ${order.order_number}`,
+        details: {
+          orderNumber: order.order_number,
+          orderId: order.id,
+          refundAmount: totalRefundAmount,
+          refundMethod,
+          authorizedBy: authData?.userName || 'Authorized Cashier',
+          itemCount: activeReturns.length,
+        },
       })
 
       toast.success(
@@ -437,6 +459,14 @@ export function PosReturnsDialog({
           </Button>
         </DialogFooter>
       </DialogContent>
+      <ManagerAuthDialog
+        open={authDialogOpen}
+        onOpenChange={setAuthDialogOpen}
+        onSuccess={handleAuthorizedReturn}
+        title={t('pos.returns.authTitle', 'Authorize Refund')}
+        description={t('pos.returns.authDesc', 'Enter your assigned POS PIN to finalize this refund.')}
+        isLoading={returnMutation.isPending}
+      />
     </Dialog>
   )
 }
